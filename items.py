@@ -133,6 +133,7 @@ class Ball(Item):
         collision_brick(Ballobj, red_bricks_obj, "red")
         collision_brick(Ballobj, blue_bricks_obj, "blue")
         collision_brick(Ballobj, cyan_bricks_obj, "cyan")
+        collision_brick(Ballobj, unbreak_bricks_obj, "unbreakable")
         collision_wall(Ballobj, Paddleobj)
         if self.lifelost == 0:
             gameOutline.OutlineArray[self.y][self.x] = Fore.BLACK + \

@@ -14,16 +14,9 @@ class Manage():
               "\t\t\t\t\t\t      LIVES LEFT : " + str(self.lives))
         print("")
 
-    def changescore(self, deleted):
+    def changescore(self, points):
         '''changes the score'''
-        if deleted == 'coin':
-            self.score += 10
-
-        if deleted == 'enemy':
-            self.score += 100
-
-        if deleted == 'boss':
-            self.score += 500
+        self.score += points
 
     def changelives(self):
         time.sleep(1)

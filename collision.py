@@ -61,17 +61,20 @@ def collision_brick(Ballobj, Bricks_obj, bricktype):
         if (Ballobj.y + Ballobj.vel_y == i.y):
             if (Ballobj.x in [j for j in range(i.x, i.x + i.width)]):
                 Ballobj.vel_y *= -1
-                i.clearbrick(i, bricktype)
+                if(i.unbreak == 0):
+                    i.clearbrick(i, bricktype)
                 # red_bricks_obj.remove(i)
         if (Ballobj.x + Ballobj.vel_x == i.x):
             if (Ballobj.y in [j for j in range(i.y, i.y + i.height)]):
                 Ballobj.vel_x *= -1
-                i.clearbrick(i, bricktype)
+                if(i.unbreak == 0):
+                    i.clearbrick(i, bricktype)
                 # red_bricks_obj.remove(i)
 
         # elif to handle the four corners only if above two dont satisfy
         if (((Ballobj.y + Ballobj.vel_y == i.y) and (Ballobj.x + Ballobj.vel_x == i.x)) or ((Ballobj.y + Ballobj.vel_y == i.y + i.height - 1) and (Ballobj.x + Ballobj.vel_x == i.x + i.width - 1))):
             Ballobj.vel_x *= -1
             Ballobj.vel_y *= -1
-            i.clearbrick(i, bricktype)
+            if(i.unbreak == 0):
+                i.clearbrick(i, bricktype)
             # red_bricks_obj.remove(i)
