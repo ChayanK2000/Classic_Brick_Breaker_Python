@@ -8,7 +8,7 @@ Update issue solved.
 
 3. initially sometimes have to keep spacebar pressed down to release ball(proabbly some tweaks in time/sigal) . I had not used the input py provided by TAs
 
-4. I used txt for consistency so that if we want a bigger figure, we can simply draw it there.
+4. I used txt for consistency so that if we want a bigger figure, we can simply draw it there. Initially i thought this might be better as we progress further in game, but actually it is not needed as far as i can understand as it is better if we keep all bricks uniform, thus no need to calculate height width explicilty by the generate() function. Time wasted! :)
 
 5. !! at certain situation, probably due to timing of moving the paddle, the ball bounces but still live is lost. IDK how!!!(usually at corners and when i just try to insert paddle at last moment)
 Probably because collision wall said it lost a life, but before being erased and new generated, collision of paddle is executed, and it still has the same ballobj and paddleobj. Hopefully tackled by clearing and generating new as soon as change lives is called.

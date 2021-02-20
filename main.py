@@ -18,6 +18,7 @@ gameOutline.display()
 
 
 TIMEOUT = 0.1  # number of seconds your want for timeout
+TIMEOUT_Ball = 0.1
 
 
 def interrupted(signum, frame):
@@ -45,16 +46,14 @@ def user_input():
 
 
 start_time = time.time()
+global_time = start_time
 while (1):
+    if time.time() - global_time >= 1:
+        global_time += 1
+        Manager.change_time()
     system('tput reset')
-
     gameOutline.display()
-    Manager.generatehead()
-
-    # enable the alarm
-    #signal.setitimer(signal.ITIMER_REAL, TIMEOUT)
-    # signal.alarm(TIMEOUT)
-
+    Manager.generatefoot()
     char = user_input()
 
     if char == 'q':
@@ -66,18 +65,7 @@ while (1):
     # to handle that we use elapsed time concept. thus ball moves every 0.1 s not less than that
     # below thing working erratically. ballobj,move getting called suspiciouslly have to keep pressing space
     elapsed_time = time.time() - start_time
-    if(elapsed_time >= TIMEOUT):
+    if(elapsed_time >= TIMEOUT_Ball):
         Ballobj.move(char)
         start_time = time.time()
     #signal.signal(signal.SIGALRM, signal.SIG_IGN)
-
-
-# while 1:
-#     system('tput reset')
-#     gameOutline.display()
-
-#     char = user_input()
-#     if char == 'j' or char == 'l':
-#         Paddleobj.move(char)
-#     else:
-#         break
