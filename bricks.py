@@ -2,9 +2,16 @@ from manage import Manager
 from outline import gameOutline
 import colorama
 from colorama import *
+from collections import defaultdict
 
 # from colorama import init, Fore, Back, Style
 colorama.init(autoreset=True)
+
+# using dfs to first store all explosive brick in contact with another explosive brick
+
+adj = defaultdict(list)
+visited = set()
+arrtoexplode = []
 
 # inheritance + polymorphism
 
@@ -16,7 +23,47 @@ class Brick():
         self.strength = 1
         self.worth = 0
 
+    def handleexplosives(self, Brick_obj):  # only to handle explosive cases
+        for i in range(Brick_obj.height):
+
+            for j in range(len(Brick_obj.arr[i])):
+                gameOutline.OutlineArray[Brick_obj.y+i][Brick_obj.x +
+                                                        j] = Fore.BLACK + Back.BLACK + " "
+        ref_x = Brick_obj.x
+        ref_y = Brick_obj.y
+        for i_y in range(ref_y - 1, ref_y + 2):
+            for j_x in range(ref_x - 6, ref_x + 7):
+                if((i_y in range(0, 30)) and (j_x in range(0, 99))):
+                    if ((j_x, i_y) in red_bricks_coord):
+                        ind = red_bricks_coord.index((j_x, i_y))
+                        objjj = red_bricks_obj[ind]
+                        self.clearbrick(objjj, "red")
+                        Manager.changescore(objjj.worth)
+                    if ((j_x, i_y) in blue_bricks_coord):
+                        ind = blue_bricks_coord.index((j_x, i_y))
+                        objjj = blue_bricks_obj[ind]
+                        self.clearbrick(objjj, "blue")
+                        Manager.changescore(objjj.worth)
+                    if ((j_x, i_y) in cyan_bricks_coord):
+                        ind = cyan_bricks_coord.index((j_x, i_y))
+                        objjj = cyan_bricks_obj[ind]
+                        self.clearbrick(objjj, "cyan")
+                        Manager.changescore(objjj.worth)
+                    if ((j_x, i_y) in unbreak_bricks_coord):
+                        ind = unbreak_bricks_coord.index((j_x, i_y))
+                        objjj = unbreak_bricks_obj[ind]
+                        self.clearbrick(objjj, "unbreakable")
+
     def clearbrick(self, Brick_obj, bricktype):
+        if (bricktype == "explosive"):
+            dfs(visited, adj, Brick_obj)
+
+            # self.arrtoexplode.append(Brick_obj)
+
+            for i in arrtoexplode:
+                expl_bricks_coord.remove((i.x, i.y))
+                expl_bricks_obj.remove(i)
+                self.handleexplosives(i)
 
         for i in range(Brick_obj.height):
 
@@ -38,41 +85,13 @@ class Brick():
             unbreak_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
             unbreak_bricks_obj.remove(Brick_obj)
 
-        elif (bricktype == "explosive"):
-            expl_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
-            expl_bricks_obj.remove(Brick_obj)
-            print(1)
-            ref_x = Brick_obj.x
-            ref_y = Brick_obj.y
-            for i_y in range(ref_y - 1, ref_y + 2):
-                for j_x in range(ref_x - 6, ref_x + 7):
+            # if ((j_x, i_y) in expl_bricks_coord):
 
-                    if ((j_x, i_y) in red_bricks_coord):
-                        ind = red_bricks_coord.index((j_x, i_y))
-                        objjj = red_bricks_obj[ind]
-                        self.clearbrick(objjj, "red")
-                        Manager.changescore(objjj.worth)
-                    if ((j_x, i_y) in blue_bricks_coord):
-                        ind = blue_bricks_coord.index((j_x, i_y))
-                        objjj = blue_bricks_obj[ind]
-                        self.clearbrick(objjj, "blue")
-                        Manager.changescore(objjj.worth)
-                    if ((j_x, i_y) in cyan_bricks_coord):
-                        ind = cyan_bricks_coord.index((j_x, i_y))
-                        objjj = cyan_bricks_obj[ind]
-                        self.clearbrick(objjj, "cyan")
-                        Manager.changescore(objjj.worth)
-                    if ((j_x, i_y) in unbreak_bricks_coord):
-                        ind = unbreak_bricks_coord.index((j_x, i_y))
-                        objjj = unbreak_bricks_obj[ind]
-                        self.clearbrick(objjj, "unbreakable")
-                    # if ((j_x, i_y) in expl_bricks_coord):
-
-                    #     ind = expl_bricks_coord.index((j_x, i_y))
-                    #     objjj = expl_bricks_obj[ind]
-                    #     self.arrtoexplode.append(objjj)
-                    #     # self.clearbrick(objjj, "explosive")
-                    #     # Manager.changescore(objjj.worth)
+            #     ind = expl_bricks_coord.index((j_x, i_y))
+            #     objjj = expl_bricks_obj[ind]
+            #     self.arrtoexplode.append(objjj)
+            #     # self.clearbrick(objjj, "explosive")
+            #     # Manager.changescore(objjj.worth)
 
     def changebrick(self, Brick_obj, bricktype):
         if (bricktype == "red"):
@@ -83,16 +102,12 @@ class Brick():
             blue_bricks_obj.append(objjj)
             objjj.generate("brick.txt")
         elif (bricktype == "blue"):
-            # blue_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
-            # blue_bricks_obj.remove(Brick_obj)
             objjj = Brick1_cyan(Brick_obj.x, Brick_obj.y)
             objjj.worth = Brick_obj.worth
             cyan_bricks_coord.append((Brick_obj.x, Brick_obj.y))
             cyan_bricks_obj.append(objjj)
             objjj.generate("brick.txt")
         elif (bricktype == "cyan"):
-            # cyan_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
-            # cyan_bricks_obj.remove(Brick_obj)
             Manager.changescore(Brick_obj.worth)
 
 
@@ -265,3 +280,17 @@ for i in expl_bricks_coord:
     expl_bricks_obj.append(Brick5_expl(i[0], i[1]))
 for i in expl_bricks_obj:
     i.generate("exploding_brick.txt")
+
+for i in expl_bricks_obj:
+    for j in expl_bricks_obj:
+        if (((abs(i.x - j.x)) <= 6) and ((abs(i.y - j.y)) <= 1)):
+            adj[j].append(i)
+            adj[i].append(j)
+
+
+def dfs(visited, adj, node):
+    if node not in visited:
+        arrtoexplode.append(node)
+        visited.add(node)
+        for neighbour in adj[node]:
+            dfs(visited, adj, neighbour)
