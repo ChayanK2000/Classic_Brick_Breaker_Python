@@ -129,13 +129,12 @@ class Ball(Item):
         # planning to do the movement of ball when on paddle(at rest) here itself
         # elif char == 'j' and self.rest == True:
 
-        gameOutline.OutlineArray[self.y][self.x] = Fore.BLACK + \
-            Back.BLACK + " "
-
-        collision_wall(Ballobj, Paddleobj)
         collision_paddle(Ballobj, Paddleobj)
         collision_brick(Ballobj, red_bricks_obj)
+        collision_wall(Ballobj, Paddleobj)
         if self.lifelost == 0:
+            gameOutline.OutlineArray[self.y][self.x] = Fore.BLACK + \
+                Back.BLACK + " "
 
             self.x += self.vel_x
             self.y += self.vel_y

@@ -10,6 +10,14 @@ class Brick():
     def __init__(self, x, y):
         self.x = x
         self.y = y
+        self.strength = 1
+
+    def clearbrick(self, Brick_obj):
+        for i in range(Brick_obj.height):
+
+            for j in range(len(Brick_obj.arr[i])):
+                gameOutline.OutlineArray[Brick_obj.y+i][Brick_obj.x +
+                                                        j] = Fore.BLACK + Back.BLACK + " "
 
 
 class Brick1(Brick):

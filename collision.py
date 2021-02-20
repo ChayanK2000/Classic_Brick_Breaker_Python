@@ -56,15 +56,23 @@ def collision_wall(Ballobj, Paddleobj):
 
 
 def collision_brick(Ballobj, Bricks_obj):
+    # need to do dame fine tuning. like it is almost correct except at very high speeds.
     for i in Bricks_obj:
-        if (Ballobj.y + Ballobj.vel_y == i.y):
-            if (Ballobj.x in [j for j in range(i.x, i.x + i.width)]):
-                Ballobj.vel_y *= -1
-        if (Ballobj.x + Ballobj.vel_x == i.x):
-            if (Ballobj.y in [j for j in range(i.y, i.y + i.height)]):
-                Ballobj.vel_x *= -1
+        if (i.strength > 0):
+            if (Ballobj.y + Ballobj.vel_y == i.y):
+                if (Ballobj.x in [j for j in range(i.x, i.x + i.width)]):
+                    Ballobj.vel_y *= -1
+                    i.strength -= 1
+                    i.clearbrick(i)
+            if (Ballobj.x + Ballobj.vel_x == i.x):
+                if (Ballobj.y in [j for j in range(i.y, i.y + i.height)]):
+                    Ballobj.vel_x *= -1
+                    i.strength -= 1
+                    i.clearbrick(i)
 
-        # elif to handle the four corners only if above two dont satisfy
-        elif ((Ballobj.y + Ballobj.vel_y == i.y) and (Ballobj.x + Ballobj.vel_x == i.x)):
-            Ballobj.vel_x *= -1
-            Ballobj.vel_y *= -1
+            # elif to handle the four corners only if above two dont satisfy
+            if (((Ballobj.y + Ballobj.vel_y == i.y) and (Ballobj.x + Ballobj.vel_x == i.x)) or ((Ballobj.y + Ballobj.vel_y == i.y + i.height - 1) and (Ballobj.x + Ballobj.vel_x == i.x + i.width - 1))):
+                Ballobj.vel_x *= -1
+                Ballobj.vel_y *= -1
+                i.strength -= 1
+                i.clearbrick(i)

@@ -12,3 +12,5 @@ Update: hopefully this whole issue is solved.
 Probably because collision wall said it lost a life, but before being erased and new generated, collision of paddle is executed, and it still has the same ballobj and paddleobj. Hopefully tackled by clearing and generating new as soon as change lives is called.
 
 or probably can also be tackled if collision handling with wall is did at last after paddle and bricks
+
+Update: handled by the second sol. though thinking to inculcate the first method as it would be neater
