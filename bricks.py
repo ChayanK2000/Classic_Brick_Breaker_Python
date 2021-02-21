@@ -1,5 +1,6 @@
 from manage import Manager
 from outline import gameOutline
+
 import colorama
 from colorama import *
 from collections import defaultdict
@@ -241,16 +242,17 @@ class Brick5_expl(Brick):
                                                    j] = Fore.BLACK + Back.YELLOW + self.arr[i][j]
 
 
-red_bricks_coord = [(23, 4), (30, 4),
-                    (37, 4), (44, 4), (51, 4), (58, 4), (65, 4), (72, 4)]
+# initializing all bricks with cordinates and their objects. Each brick has an object.
+red_bricks_coord = [(23, 4), (61, 10), (37, 4), (44, 4),
+                    (51, 4), (58, 4), (65, 4), (72, 4)]
 red_bricks_obj = []
 for i in red_bricks_coord:
     red_bricks_obj.append(Brick3_red(i[0], i[1]))
 for i in red_bricks_obj:
     i.generate("brick.txt")
 
-blue_bricks_coord = [(12, 10), (19, 10), (26, 10), (33, 10),
-                     (40, 10), (47, 10), (54, 10), (61, 10), (68, 10), (75, 10)]
+blue_bricks_coord = [(30, 4), (12, 10), (19, 10), (26, 10), (33, 10),
+                     (40, 10), (47, 10), (54, 10), (68, 10), (75, 10)]
 blue_bricks_obj = []
 for i in blue_bricks_coord:
     blue_bricks_obj.append(Brick2_blue(i[0], i[1]))

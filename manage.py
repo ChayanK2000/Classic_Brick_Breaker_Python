@@ -24,10 +24,12 @@ class Manage():
 
     def changelives(self):
         time.sleep(1)
-        if self.lives == 0:
-            os.system("tput reset")
+        if self.lives == 1:  # 0 or 1 depending on understanding
+            #os.system("tput reset")
+            print('---------------------------\n')
             print('GAME OVER')
             print('Your Final Score is : ' + str(self.score))
+            print('Total time taken: ' + str(self.time_taken))
             print('')
             exit()
         else:

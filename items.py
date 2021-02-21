@@ -19,7 +19,6 @@ class Item():
         self.x = x
         self.y = y
         self.generate(path)
-        self.lifelost = 0  # dummy variable just to check whether the life is just lost or not
 
     def generate(self, path):
         f = open(path, 'r')
@@ -50,6 +49,7 @@ class Item():
 class Paddle(Item):
     def __init__(self, x, y, path):
         super().__init__(x, y, path)
+        # self.lifelost = 0  # dummy variable just to check whether the life is just lost or not
 
         # making the partitions
         self.centrewidth = self.width % 4
@@ -151,6 +151,7 @@ class Ball(Item):
         super().__init__(x, y, path)
         self.vel_x = 0
         self.vel_y = 0
+        self.lifelost = 0  # dummy variable just to check whether the life is just lost or not
         self.rest = True
 
     def move(self, char):
