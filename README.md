@@ -1,18 +1,49 @@
-1. say vel_x increases to 6 units, and i am at 97th coord(99 is the end). so it shud then show up at 91 or 95? though this is not much detectable but these cases entangle more and are important ig when say wall/brick or brick/brick are very near to each other and collision is happening.
-Update: Still left
+# Classic Brick Breaker
 
-2. thus just as we had extra (+1, -1) while collision with pad(but still i did not take into account vel here which i should. Thus now even if ball already goes on right comes to just right of paddle, it bounces(not expected), but a ball already going left comes just right of paddle it bounces(expected)), similar technique to apply in bricks. Need to consider the extreme + 1 points
-Update: Paddle collision extreme handle succesfullly using separate if loops.
-Update: hopefully this whole issue is solved.
-Update issue solved.
+This is a terminal based python brick breaker game, without the usage of any curses libraries. 
 
-3. initially sometimes have to keep spacebar pressed down to release ball(proabbly some tweaks in time/sigal) . I had not used the input py provided by TAs
+Controls
+----------
+> **j**: move paddle to left
 
-4. I used txt for consistency so that if we want a bigger figure, we can simply draw it there. Initially i thought this might be better as we progress further in game, but actually it is not needed as far as i can understand as it is better if we keep all bricks uniform, thus no need to calculate height width explicilty by the generate() function. Time wasted! :)
+> **l**: move paddle to right
 
-5. !! at certain situation, probably due to timing of moving the paddle, the ball bounces but still live is lost. IDK how!!!(usually at corners and when i just try to insert paddle at last moment)
-Probably because collision wall said it lost a life, but before being erased and new generated, collision of paddle is executed, and it still has the same ballobj and paddleobj. Hopefully tackled by clearing and generating new as soon as change lives is called.
+> **spacebar**: to release the ball
 
-or probably can also be tackled if collision handling with wall is did at last after paddle and bricks
+> **q**: to quit the game
+----------
+About the features of this game:
+------
 
-Update: handled by the second sol. though thinking to inculcate the first method as it would be neater
+It as usual starts with a paddle and a ball on it, whcih gets released according to the input.
+The collisions of ball with bricks and wall is pretty much reflectional except the case with paddle. 
+- The velocity of the ball gets affected according to the part of paddle it hits.
+In simple words, the paddle is segregated into 5 parts. The y velocity is normally revrsed, only x velocity is affected
+- If it hits centre portion, no change in x velocity
+- If it hits leftmost part, then 2 units of velocity is imparted to left, similarly for right. 
+- If it hits the other two part, 1 unit of velocity is imparted accordingly
+
+Note: When the ball collides with the corner of the bricks, it is simply reversed, that is, both x and y velocity are reversed.
+Similarly for paddle, if ball is going right and it just touches the left corner of paddle(left of last point of paddle), it is still rebounded, and vice versa.
+
+Types of Bricks
+----
+- Cyan brick: This bricks gets demolished on hitting just once, that is, strength is 1 units. It is worth 10 points
+- Blue bricks: This bricks gets demolished on hitting it twice, that is, strength is 2 units. It is worth 20 points. On being hit the first time, it then becomes a cyan brick of strength 1, and the 20 points gets added when it is totally finished
+- Red bricks: This bricks gets demolished on hitting it thrice, that is, strength is 3 units. To do this, first it changes to blue and then cyan on being hit. It is worth 10 points, and it gets added only when that brick is completely finished.
+- White bricks: These are unbreakable bricks, which get demolished only if an explosive brick explodes near them.
+Yellow bricks(dented as "[ !! ]"): It explodes all the nearby bricks(which is in touch with it). To implement the case where multiple explosive bricks are adjacent to each other, i was first using recursion, which was giving some error, hence i did this using dfs.
+
+Requirements:
+---
+
+
+
+To start:
+----
+Run the follwing code to start the game:
+```
+python3 main.py
+```
+
+
