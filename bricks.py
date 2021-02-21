@@ -61,8 +61,6 @@ class Brick(Item):
         if (bricktype == "explosive"):
             dfs(visited, adj, Brick_obj)
 
-            # self.arrtoexplode.append(Brick_obj)
-
             for i in arrtoexplode:
                 expl_bricks_coord.remove((i.x, i.y))
                 expl_bricks_obj.remove(i)
@@ -87,14 +85,6 @@ class Brick(Item):
         elif (bricktype == "unbreakable"):
             unbreak_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
             unbreak_bricks_obj.remove(Brick_obj)
-
-            # if ((j_x, i_y) in expl_bricks_coord):
-
-            #     ind = expl_bricks_coord.index((j_x, i_y))
-            #     objjj = expl_bricks_obj[ind]
-            #     self.arrtoexplode.append(objjj)
-            #     # self.clearbrick(objjj, "explosive")
-            #     # Manager.changescore(objjj.worth)
 
     def changebrick(self, Brick_obj, bricktype):
         if (bricktype == "red"):
@@ -255,7 +245,7 @@ class Brick5_expl(Brick):
 
 # initializing all bricks with cordinates and their objects. Each brick has an object.
 red_bricks_coord = [(23, 4), (61, 10), (37, 4), (44, 4),
-                    (51, 4), (58, 4), (65, 4), (72, 4)]
+                    (36, 14), (58, 4), (65, 4), (71, 14)]
 red_bricks_obj = []
 for i in red_bricks_coord:
     red_bricks_obj.append(Brick3_red(
@@ -272,8 +262,8 @@ for i in blue_bricks_coord:
 # for i in blue_bricks_obj:
 #     i.generate("brick.txt")
 
-cyan_bricks_coord = [(22, 14), (29, 14), (36, 14),
-                     (43, 14), (50, 14), (57, 14), (64, 14), (71, 14), (78, 14), (85, 14)]
+cyan_bricks_coord = [(22, 14), (29, 14), (51, 4),
+                     (43, 14), (50, 14), (57, 14), (64, 14), (72, 4), (78, 14)]
 cyan_bricks_obj = []
 for i in cyan_bricks_coord:
     cyan_bricks_obj.append(Brick1_cyan(
@@ -291,11 +281,11 @@ for i in unbreak_bricks_coord:
 #     i.generate("brick.txt")
 
 expl_bricks_coord = [(20, 5), (26, 5), (32, 5), (38, 5),
-                     (44, 5), (50, 5), (56, 5), (62, 5), (68, 5), (74, 5)]
+                     (44, 5), (50, 5), (56, 5), (62, 5), (68, 5), (74, 5), (80, 5), (80, 6), (86, 5), (86, 6)]
 expl_bricks_obj = []
 for i in expl_bricks_coord:
     expl_bricks_obj.append(Brick5_expl(
-        i[0], i[1], "brick.txt", Fore.YELLOW, Back.YELLOW))
+        i[0], i[1], "exploding_brick.txt", Fore.BLACK, Back.YELLOW))
 # for i in expl_bricks_obj:
 #     i.generate("exploding_brick.txt")
 
