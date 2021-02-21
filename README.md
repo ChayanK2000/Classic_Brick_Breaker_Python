@@ -32,7 +32,7 @@ Types of Bricks
 - Blue bricks: This bricks gets demolished on hitting it twice, that is, strength is 2 units. It is worth 20 points. On being hit the first time, it then becomes a cyan brick of strength 1, and the 20 points gets added when it is totally finished
 - Red bricks: This bricks gets demolished on hitting it thrice, that is, strength is 3 units. To do this, first it changes to blue and then cyan on being hit. It is worth 10 points, and it gets added only when that brick is completely finished.
 - White bricks: These are unbreakable bricks, which get demolished only if an explosive brick explodes near them.
-Yellow bricks(denoted as "[ !! ]"): It explodes all the nearby bricks(which is in touch with it). To implement the case where multiple explosive bricks are adjacent to each other, i was first using recursion, which was giving some error, hence i did this using dfs.
+Yellow bricks(denoted as [ !! ]): It explodes all the nearby bricks(which is in touch with it). To implement the case where multiple explosive bricks are adjacent to each other, i was first using recursion, which was giving some error, hence i did this using dfs.
 
 Requirements:
 ---

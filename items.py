@@ -51,6 +51,55 @@ class Paddle(Item):
     def __init__(self, x, y, path):
         super().__init__(x, y, path)
 
+        # making the partitions
+        self.centrewidth = self.width % 4
+        self.partitions()
+
+    def partitions(self):
+        self.partwidth = self.width // 4
+        self.left2 = []
+        self.left1 = []
+        self.centre = []
+        self.right1 = []
+        self.right2 = []
+        self.pos = self.x
+        for i in range(0, 5):
+            if i == 2:
+                max = self.centrewidth
+            else:
+                max = self.partwidth
+
+            for j in range(0, max):
+                if (i == 0):
+                    self.left2.append(self.pos + j)
+                if (i == 1):
+                    self.left1.append(self.pos + j)
+                if (i == 2):
+                    self.centre.append(self.pos + j)
+                if (i == 3):
+                    self.right1.append(self.pos + j)
+                if (i == 4):
+                    self.right2.append(self.pos + j)
+            self.pos += j + 1
+        self.left2 = np.array(self.left2)
+        self.left1 = np.array(self.left1)
+        self.centre = np.array(self.centre)
+        self.right1 = np.array(self.right1)
+        self.right2 = np.array(self.right2)
+
+    def changePartCoord(self, bit):
+        self.left2 += bit
+        self.left1 += bit
+        self.centre += bit
+        self.right1 += bit
+        self.right2 += bit
+        # print(self.left2)
+        # print(self.left1)
+        # print(self.centre)
+        # print(self.right1)
+        # print(self.right2)
+        # exit()
+
     def move(self, char):
 
         if char == 'j':
@@ -61,6 +110,7 @@ class Paddle(Item):
 
             if(self.x >= 1):
                 self.x = self.x - 1
+                self.changePartCoord(-1)
                 if (Ballobj.rest == True):
                     gameOutline.OutlineArray[Ballobj.y][Ballobj.x] = Fore.BLACK + \
                         Back.BLACK + " "
@@ -81,6 +131,7 @@ class Paddle(Item):
 
             if(self.x + self.width <= 99):
                 self.x = self.x + 1
+                self.changePartCoord(1)
                 if (Ballobj.rest == True):
                     gameOutline.OutlineArray[Ballobj.y][Ballobj.x] = Fore.BLACK + \
                         Back.BLACK + " "
@@ -133,6 +184,7 @@ class Ball(Item):
             self.rest = True
             Paddleobj.generate('paddle.txt')
             self.generate('ball1.txt')
+            Paddleobj.partitions()
             # if (self.lives == 0):  # to end program. thinking to write this in main.py
             #     exit()
 

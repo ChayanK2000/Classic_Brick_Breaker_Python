@@ -1,46 +1,22 @@
-from math import pi
+import numpy as np
+left2 = np.array([8, 90])
+left2 = np.append(left2, 8)
+left2 = np.append(left2, 9)
+left2 = left2 + 1
+print(left2)
+
+left1 = [1, 2, 3, 4]
+left1 = np.array(left1)
+left1 += 1
+print(left1)
 
 
-class Shape:
-    def __init__(self, name):
-        self.name = name
-
-    def area(self):
-        pass
-
-    def fact(self):
-        return "I am a two-dimensional shape."
-
-    def __str__(self):
-        return self.name
+def hi():
+    global x
+    x = 10
 
 
-class Square(Shape):
-    def __init__(self, length):
-        super().__init__("Square")
-        self.length = length
-
-    def area(self):
-        return self.length**2
-
-    def fact(self):
-        return "Squares have each angle equal to 90 degrees."
-
-
-class Circle(Shape):
-    def __init__(self, radius):
-        super().__init__("Circle")
-        self.radius = radius
-
-    def area(self):
-        print(b.fact())
-        print(self.fact())
-        return pi*self.radius**2
-
-
-a = Square(4)
-b = Circle(7)
-print(b)
-print(b.fact())
-print(a.fact())
-print(b.area())
+global x
+x = 5
+hi()
+print(x)

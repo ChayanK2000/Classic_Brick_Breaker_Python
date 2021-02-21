@@ -4,28 +4,34 @@ from manage import *
 
 def collision_paddle(Ballobj, Paddleobj):
     if (Ballobj.y + Ballobj.vel_y == 29):
+        # print(Paddleobj.left2)
+        # print(Paddleobj.left1)
+        # print(Paddleobj.centre)
+        # print(Paddleobj.right1)
+        # print(Paddleobj.right2)
+        # exit()
         # -1 and +1 at start and end so that ball bounces even at the corners
-        if (Ballobj.x in [i for i in range(Paddleobj.x, Paddleobj.x + 4)]):
+        if (Ballobj.x in Paddleobj.left2):
             Ballobj.vel_x += -2
             Ballobj.vel_y *= -1
         # following if for the point left of starting
-        if ((Ballobj.x == Paddleobj.x - 1) and (Ballobj.vel_x >= 0)):
+        elif ((Ballobj.x == Paddleobj.x - 1) and (Ballobj.vel_x >= 0)):
             Ballobj.vel_x += -2
             Ballobj.vel_y *= -1
-        if (Ballobj.x in [i for i in range(Paddleobj.x + 4, Paddleobj.x + 8)]):
+        elif (Ballobj.x in Paddleobj.left1):
             Ballobj.vel_x += -1
             Ballobj.vel_y *= -1
-        if (Ballobj.x in [i for i in range(Paddleobj.x + 8, Paddleobj.x + 11)]):
+        elif (Ballobj.x in Paddleobj.centre):
             Ballobj.vel_x += 0
             Ballobj.vel_y *= -1
-        if (Ballobj.x in [i for i in range(Paddleobj.x + 11, Paddleobj.x + 15)]):
+        elif (Ballobj.x in Paddleobj.right1):
             Ballobj.vel_x += 1
             Ballobj.vel_y *= -1
-        if (Ballobj.x in [i for i in range(Paddleobj.x + 15, Paddleobj.x + 19)]):
+        elif (Ballobj.x in Paddleobj.right2):
             Ballobj.vel_x += 2
             Ballobj.vel_y *= -1
         # following if for point right of end
-        if ((Ballobj.x == Paddleobj.x + 19) and (Ballobj.vel_x <= 0)):
+        elif ((Ballobj.x == Paddleobj.x + Paddleobj.width) and (Ballobj.vel_x <= 0)):
             Ballobj.vel_x += 2
             Ballobj.vel_y *= -1
 
@@ -35,6 +41,12 @@ def collision_wall(Ballobj, Paddleobj):
         Ballobj.vel_y *= -1
     if (Ballobj.y + Ballobj.vel_y == 30):
         Manager.changelives()
+        # print(Paddleobj.left2)
+        # print(Paddleobj.left1)
+        # print(Paddleobj.centre)
+        # print(Paddleobj.right1)
+        # print(Paddleobj.right2)
+        # exit()
         # basically any object of item class instead of ballobj
         Ballobj.clearOnLiveLost(Paddleobj)
         # basically any object of item class instead of ballobj
