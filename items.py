@@ -1,6 +1,7 @@
 import getch
 import sys
 # from getch import _getChUnix as getChar
+from super_items import *
 from outline import gameOutline
 from collision import *
 from bricks import *
@@ -14,41 +15,9 @@ colorama.init(autoreset=True)
 # inheritance (in classes) + polymorphism(in variables like height and functions like move, clearOnLiveLost etc)
 
 
-class Item():
-    def __init__(self, x, y, path):
-        self.x = x
-        self.y = y
-        self.generate(path)
-
-    def generate(self, path):
-        f = open(path, 'r')
-        raw = f.read()
-        raw = raw.rstrip("\n")
-        self.arr = raw.splitlines()
-        mx = -1
-        for i in self.arr:
-            mx = max(mx, len(i))
-
-        self.height = len(self.arr)
-        self.width = mx
-
-        for i in range(self.height):
-
-            for j in range(len(self.arr[i])):
-                gameOutline.OutlineArray[self.y+i][self.x +
-                                                   j] = Fore.GREEN + Back.BLACK + self.arr[i][j]
-
-    def clearOnLiveLost(self, itemobj):
-        for i in range(0, itemobj.height):
-            for j in range(0, len(itemobj.arr[i])):
-                gameOutline.OutlineArray[itemobj.y + i][itemobj.x +
-                                                        j] = Fore.BLACK + Back.BLACK + " "
-        self.lifelost = 1
-
-
 class Paddle(Item):
-    def __init__(self, x, y, path):
-        super().__init__(x, y, path)
+    def __init__(self, x, y, path, forecolour, backcolour):
+        super().__init__(x, y, path, forecolour, backcolour)
         # self.lifelost = 0  # dummy variable just to check whether the life is just lost or not
 
         # making the partitions
@@ -147,10 +116,11 @@ class Paddle(Item):
 
 
 class Ball(Item):
-    def __init__(self, x, y, path):
-        super().__init__(x, y, path)
+    def __init__(self, x, y, path, forecolour, backcolour):
+        super().__init__(x, y, path, forecolour, backcolour)
         self.vel_x = 0
         self.vel_y = 0
+        self.history = 0
         self.lifelost = 0  # dummy variable just to check whether the life is just lost or not
         self.rest = True
 
@@ -166,15 +136,23 @@ class Ball(Item):
         collision_brick(Ballobj, unbreak_bricks_obj, "unbreakable")
         collision_brick(Ballobj, expl_bricks_obj, "explosive")
         collision_wall(Ballobj, Paddleobj)
-        if self.lifelost == 0:
-            gameOutline.OutlineArray[self.y][self.x] = Fore.BLACK + \
-                Back.BLACK + " "
 
+        # this history variable just so that when ball passes a brick at high velocity, the gap is not created
+        if self.lifelost == 0:
+            if (self.history == 0):
+                gameOutline.OutlineArray[self.y][self.x] = Fore.BLACK + \
+                    Back.BLACK + " "
+
+            self.history = 0
             self.x += self.vel_x
             self.y += self.vel_y
 
-            gameOutline.OutlineArray[self.y][self.x] = Fore.GREEN + \
-                Back.BLACK + "O"
+            if (gameOutline.OutlineArray[self.y][self.x] != Fore.BLACK + Back.BLACK + " "):
+                self.history = 1
+
+            else:
+                gameOutline.OutlineArray[self.y][self.x] = Fore.GREEN + \
+                    Back.BLACK + "O"
         else:  # re initializing and generating like at the start
             self.lifelost = 0
             Paddleobj.x = 40
@@ -183,13 +161,13 @@ class Ball(Item):
             self.y = 28
             self.vel_x, self.vel_y = 0, 0
             self.rest = True
-            Paddleobj.generate('paddle.txt')
-            self.generate('ball1.txt')
+            Paddleobj.generate('paddle.txt', Fore.GREEN, Back.BLACK)
+            self.generate('ball1.txt', Fore.GREEN, Back.BLACK)
             Paddleobj.partitions()
             # if (self.lives == 0):  # to end program. thinking to write this in main.py
             #     exit()
 
 
-Ballobj = Ball(49, 28, 'ball1.txt')
+Ballobj = Ball(49, 28, 'ball1.txt', Fore.GREEN, Back.BLACK)
 
-Paddleobj = Paddle(40, 29, 'paddle.txt')
+Paddleobj = Paddle(40, 29, 'paddle.txt', Fore.GREEN, Back.BLACK)

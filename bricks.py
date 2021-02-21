@@ -1,6 +1,7 @@
 from manage import Manager
 from outline import gameOutline
-
+from powerups import *
+from super_items import *
 import colorama
 from colorama import *
 from collections import defaultdict
@@ -17,10 +18,11 @@ arrtoexplode = []
 # inheritance + polymorphism
 
 
-class Brick():
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+class Brick(Item):
+    def __init__(self, x, y, path, forecolour, backcolour):
+        super().__init__(x, y, path, forecolour, backcolour)
+        # self.x = x
+        # self.y = y
         self.strength = 1
         self.worth = 0
 
@@ -97,149 +99,158 @@ class Brick():
     def changebrick(self, Brick_obj, bricktype):
         if (bricktype == "red"):
 
-            objjj = Brick2_blue(Brick_obj.x, Brick_obj.y)
+            objjj = Brick2_blue(Brick_obj.x, Brick_obj.y,
+                                "brick.txt", Fore.BLUE, Back.BLUE)
             objjj.worth = Brick_obj.worth  # to keep worth of original brick
             blue_bricks_coord.append((Brick_obj.x, Brick_obj.y))
             blue_bricks_obj.append(objjj)
-            objjj.generate("brick.txt")
+            #objjj.generate("brick.txt", Fore.BLUE, Back.BLUE)
         elif (bricktype == "blue"):
-            objjj = Brick1_cyan(Brick_obj.x, Brick_obj.y)
+            objjj = Brick1_cyan(Brick_obj.x, Brick_obj.y,
+                                "brick.txt", Fore.CYAN, Back.CYAN)
             objjj.worth = Brick_obj.worth
             cyan_bricks_coord.append((Brick_obj.x, Brick_obj.y))
             cyan_bricks_obj.append(objjj)
-            objjj.generate("brick.txt")
+            #objjj.generate("brick.txt", Fore.CYAN, Back.CYAN)
         elif (bricktype == "cyan"):
             Manager.changescore(Brick_obj.worth)
 
+            if ((Brick_obj.x + 2, Brick_obj.y) in exp_paddle_coord):
+                ind = exp_paddle_coord.index(
+                    (Brick_obj.x + 2, Brick_obj.y))
+                exp_paddle_obj[ind].generate(
+                    "power_expand.txt", Fore.GREEN, Back.BLACK)
+                exp_paddle_dict[exp_paddle_obj[ind]] = 1
+
 
 class Brick1_cyan(Brick):
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, x, y, path, forecolour, backcolour):
+        super().__init__(x, y, path, forecolour, backcolour)
         self.worth = 10
 
-    def generate(self, path):
-        f = open(path, 'r')
-        raw = f.read()
-        raw = raw.rstrip("\n")
-        self.arr = raw.splitlines()
-        mx = -1
-        for i in self.arr:
-            mx = max(mx, len(i))
+    # def generate(self, path):
+    #     f = open(path, 'r')
+    #     raw = f.read()
+    #     raw = raw.rstrip("\n")
+    #     self.arr = raw.splitlines()
+    #     mx = -1
+    #     for i in self.arr:
+    #         mx = max(mx, len(i))
 
-        self.height = len(self.arr)
-        self.width = mx
+    #     self.height = len(self.arr)
+    #     self.width = mx
 
-        # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
-        #                   for row in range(height)]))
-        for i in range(self.height):
+    #     # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
+    #     #                   for row in range(height)]))
+    #     for i in range(self.height):
 
-            for j in range(len(self.arr[i])):
-                gameOutline.OutlineArray[self.y+i][self.x +
-                                                   j] = Fore.CYAN + Back.CYAN + self.arr[i][j]
+    #         for j in range(len(self.arr[i])):
+    #             gameOutline.OutlineArray[self.y+i][self.x +
+    #                                                j] = Fore.CYAN + Back.CYAN + self.arr[i][j]
 
 
 class Brick2_blue(Brick):
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, x, y, path, forecolour, backcolour):
+        super().__init__(x, y, path, forecolour, backcolour)
         self.worth = 20
 
-    def generate(self, path):
-        f = open(path, 'r')
-        raw = f.read()
-        raw = raw.rstrip("\n")
-        self.arr = raw.splitlines()
-        mx = -1
-        for i in self.arr:
-            mx = max(mx, len(i))
+    # def generate(self, path):
+    #     f = open(path, 'r')
+    #     raw = f.read()
+    #     raw = raw.rstrip("\n")
+    #     self.arr = raw.splitlines()
+    #     mx = -1
+    #     for i in self.arr:
+    #         mx = max(mx, len(i))
 
-        self.height = len(self.arr)
-        self.width = mx
+    #     self.height = len(self.arr)
+    #     self.width = mx
 
-        # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
-        #                   for row in range(height)]))
-        for i in range(self.height):
+    #     # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
+    #     #                   for row in range(height)]))
+    #     for i in range(self.height):
 
-            for j in range(len(self.arr[i])):
-                gameOutline.OutlineArray[self.y+i][self.x +
-                                                   j] = Fore.BLUE + Back.BLUE + self.arr[i][j]
+    #         for j in range(len(self.arr[i])):
+    #             gameOutline.OutlineArray[self.y+i][self.x +
+    #                                                j] = Fore.BLUE + Back.BLUE + self.arr[i][j]
 
 
 class Brick3_red(Brick):
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, x, y, path, forecolour, backcolour):
+        super().__init__(x, y, path, forecolour, backcolour)
         self.worth = 30
 
-    def generate(self, path):
-        f = open(path, 'r')
-        raw = f.read()
-        raw = raw.rstrip("\n")
-        self.arr = raw.splitlines()
-        mx = -1
-        for i in self.arr:
-            mx = max(mx, len(i))
+    # def generate(self, path):
+    #     f = open(path, 'r')
+    #     raw = f.read()
+    #     raw = raw.rstrip("\n")
+    #     self.arr = raw.splitlines()
+    #     mx = -1
+    #     for i in self.arr:
+    #         mx = max(mx, len(i))
 
-        self.height = len(self.arr)
-        self.width = mx
+    #     self.height = len(self.arr)
+    #     self.width = mx
 
-        # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
-        #                   for row in range(height)]))
-        for i in range(self.height):
+    #     # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
+    #     #                   for row in range(height)]))
+    #     for i in range(self.height):
 
-            for j in range(len(self.arr[i])):
-                gameOutline.OutlineArray[self.y+i][self.x +
-                                                   j] = Fore.RED + Back.RED + self.arr[i][j]
+    #         for j in range(len(self.arr[i])):
+    #             gameOutline.OutlineArray[self.y+i][self.x +
+    #                                                j] = Fore.RED + Back.RED + self.arr[i][j]
 
 
 class Brick4_unbreak(Brick):
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, x, y, path, forecolour, backcolour):
+        super().__init__(x, y, path, forecolour, backcolour)
         self.unbreak = 1
 
-    def generate(self, path):
-        f = open(path, 'r')
-        raw = f.read()
-        raw = raw.rstrip("\n")
-        self.arr = raw.splitlines()
-        mx = -1
-        for i in self.arr:
-            mx = max(mx, len(i))
+    # def generate(self, path):
+    #     f = open(path, 'r')
+    #     raw = f.read()
+    #     raw = raw.rstrip("\n")
+    #     self.arr = raw.splitlines()
+    #     mx = -1
+    #     for i in self.arr:
+    #         mx = max(mx, len(i))
 
-        self.height = len(self.arr)
-        self.width = mx
+    #     self.height = len(self.arr)
+    #     self.width = mx
 
-        # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
-        #                   for row in range(height)]))
-        for i in range(self.height):
+    #     # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
+    #     #                   for row in range(height)]))
+    #     for i in range(self.height):
 
-            for j in range(len(self.arr[i])):
-                gameOutline.OutlineArray[self.y+i][self.x +
-                                                   j] = Fore.WHITE + Back.WHITE + self.arr[i][j]
+    #         for j in range(len(self.arr[i])):
+    #             gameOutline.OutlineArray[self.y+i][self.x +
+    #                                                j] = Fore.WHITE + Back.WHITE + self.arr[i][j]
 
 
 class Brick5_expl(Brick):
-    def __init__(self, x, y):
-        super().__init__(x, y)
+    def __init__(self, x, y, path, forecolour, backcolour):
+        super().__init__(x, y, path, forecolour, backcolour)
         # self.worth = 5
 
-    def generate(self, path):
-        f = open(path, 'r')
-        raw = f.read()
-        raw = raw.rstrip("\n")
-        self.arr = raw.splitlines()
-        mx = -1
-        for i in self.arr:
-            mx = max(mx, len(i))
+    # def generate(self, path):
+    #     f = open(path, 'r')
+    #     raw = f.read()
+    #     raw = raw.rstrip("\n")
+    #     self.arr = raw.splitlines()
+    #     mx = -1
+    #     for i in self.arr:
+    #         mx = max(mx, len(i))
 
-        self.height = len(self.arr)
-        self.width = mx
+    #     self.height = len(self.arr)
+    #     self.width = mx
 
-        # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
-        #                   for row in range(height)]))
-        for i in range(self.height):
+    #     # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
+    #     #                   for row in range(height)]))
+    #     for i in range(self.height):
 
-            for j in range(len(self.arr[i])):
-                gameOutline.OutlineArray[self.y+i][self.x +
-                                                   j] = Fore.BLACK + Back.YELLOW + self.arr[i][j]
+    #         for j in range(len(self.arr[i])):
+    #             gameOutline.OutlineArray[self.y+i][self.x +
+    #                                                j] = Fore.BLACK + Back.YELLOW + self.arr[i][j]
 
 
 # initializing all bricks with cordinates and their objects. Each brick has an object.
@@ -247,47 +258,54 @@ red_bricks_coord = [(23, 4), (61, 10), (37, 4), (44, 4),
                     (51, 4), (58, 4), (65, 4), (72, 4)]
 red_bricks_obj = []
 for i in red_bricks_coord:
-    red_bricks_obj.append(Brick3_red(i[0], i[1]))
-for i in red_bricks_obj:
-    i.generate("brick.txt")
+    red_bricks_obj.append(Brick3_red(
+        i[0], i[1], "brick.txt", Fore.RED, Back.RED))
+# for i in red_bricks_obj:
+#     i.generate("brick.txt")
 
 blue_bricks_coord = [(30, 4), (12, 10), (19, 10), (26, 10), (33, 10),
                      (40, 10), (47, 10), (54, 10), (68, 10), (75, 10)]
 blue_bricks_obj = []
 for i in blue_bricks_coord:
-    blue_bricks_obj.append(Brick2_blue(i[0], i[1]))
-for i in blue_bricks_obj:
-    i.generate("brick.txt")
+    blue_bricks_obj.append(Brick2_blue(
+        i[0], i[1], "brick.txt", Fore.BLUE, Back.BLUE))
+# for i in blue_bricks_obj:
+#     i.generate("brick.txt")
 
 cyan_bricks_coord = [(22, 14), (29, 14), (36, 14),
                      (43, 14), (50, 14), (57, 14), (64, 14), (71, 14), (78, 14), (85, 14)]
 cyan_bricks_obj = []
 for i in cyan_bricks_coord:
-    cyan_bricks_obj.append(Brick1_cyan(i[0], i[1]))
-for i in cyan_bricks_obj:
-    i.generate("brick.txt")
+    cyan_bricks_obj.append(Brick1_cyan(
+        i[0], i[1], "brick.txt", Fore.CYAN, Back.CYAN))
+# for i in cyan_bricks_obj:
+#     i.generate("brick.txt")
 
 unbreak_bricks_coord = [(23, 6), (30, 6),
                         (37, 6), (44, 6), (51, 6), (58, 6), (65, 6), (72, 6)]
 unbreak_bricks_obj = []
 for i in unbreak_bricks_coord:
-    unbreak_bricks_obj.append(Brick4_unbreak(i[0], i[1]))
-for i in unbreak_bricks_obj:
-    i.generate("brick.txt")
+    unbreak_bricks_obj.append(Brick4_unbreak(
+        i[0], i[1], "brick.txt", Fore.WHITE, Back.WHITE))
+# for i in unbreak_bricks_obj:
+#     i.generate("brick.txt")
 
 expl_bricks_coord = [(20, 5), (26, 5), (32, 5), (38, 5),
                      (44, 5), (50, 5), (56, 5), (62, 5), (68, 5), (74, 5)]
 expl_bricks_obj = []
 for i in expl_bricks_coord:
-    expl_bricks_obj.append(Brick5_expl(i[0], i[1]))
-for i in expl_bricks_obj:
-    i.generate("exploding_brick.txt")
+    expl_bricks_obj.append(Brick5_expl(
+        i[0], i[1], "brick.txt", Fore.YELLOW, Back.YELLOW))
+# for i in expl_bricks_obj:
+#     i.generate("exploding_brick.txt")
 
 for i in expl_bricks_obj:
     for j in expl_bricks_obj:
         if (((abs(i.x - j.x)) <= 6) and ((abs(i.y - j.y)) <= 1)):
             adj[j].append(i)
             adj[i].append(j)
+
+# dfs only for exploding bricks handling
 
 
 def dfs(visited, adj, node):

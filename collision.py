@@ -41,12 +41,6 @@ def collision_wall(Ballobj, Paddleobj):
         Ballobj.vel_y *= -1
     if (Ballobj.y + Ballobj.vel_y == 30):
         Manager.changelives()
-        # print(Paddleobj.left2)
-        # print(Paddleobj.left1)
-        # print(Paddleobj.centre)
-        # print(Paddleobj.right1)
-        # print(Paddleobj.right2)
-        # exit()
         # basically any object of item class instead of ballobj
         Ballobj.clearOnLiveLost(Paddleobj)
         # basically any object of item class instead of ballobj
@@ -78,6 +72,12 @@ def collision_brick(Ballobj, Bricks_obj, bricktype):
                 if(bricktype != "unbreakable"):
                     i.clearbrick(i, bricktype)
                     i.changebrick(i, bricktype)
+                    # if (bricktype == 'cyan'):
+                    #     # for powerups
+                    #     if ((i.x + 2, i.y) in exp_paddle_coord):
+                    #         ind = exp_paddle_coord.index(
+                    #             (i.x + 2, i.y))
+                    #         exp_paddle_obj[ind].generate("power_expand.txt")
 
         if (Ballobj.x + Ballobj.vel_x == i.x):
             if (Ballobj.y in [j for j in range(i.y, i.y + i.height)]):

@@ -1,4 +1,8 @@
 import numpy as np
+import colorama
+from colorama import *
+colorama.init(autoreset=True)
+
 left2 = np.array([8, 90])
 left2 = np.append(left2, 8)
 left2 = np.append(left2, 9)
@@ -20,3 +24,5 @@ global x
 x = 5
 hi()
 print(x)
+forecolour = Fore.YELLOW
+print(forecolour + "yo")

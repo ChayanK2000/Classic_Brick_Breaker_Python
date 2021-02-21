@@ -17,3 +17,7 @@ or probably can also be tackled if collision handling with wall is did at last a
 
 Update: handled by the second sol. though thinking to inculcate the first method as it would be neater
 but doing that has a problem that on the new life the ball never gets released. unable to figure out.
+
+6. All have different generate function even though i can have one only in item is because everything has different colour. so anyways if i did thta i had to write lots of if else in it depending on which file is being read.
+
+7. to see the hypo case where say first there is cyan then on same place i have unreak, then beacuse of order, unbreak is show, BUT on hitting it it gives 10 points(as it was also cyan), but the area became completely blank, though property of unbreak was stull reflected(the ball reflects from the blank area, as unbreak coord are still there) Writing this because this coincides with the concept of powerups inside bricks

@@ -1,7 +1,13 @@
+
+from powerups import *
+from super_items import *
 from items import *
+
 from bricks import *
+
 from outline import gameOutline
 from manage import *
+
 import time
 import signal
 import sys
@@ -18,7 +24,7 @@ gameOutline.display()
 
 
 TIMEOUT = 0.1  # number of seconds your want for timeout
-TIMEOUT_Ball = 0.1
+TIMEOUT_Ball_POW = 0.1
 
 
 def interrupted(signum, frame):
@@ -65,7 +71,12 @@ while (1):
     # to handle that we use elapsed time concept. thus ball moves every 0.1 s not less than that
     # below thing working erratically. ballobj,move getting called suspiciouslly have to keep pressing space
     elapsed_time = time.time() - start_time
-    if(elapsed_time >= TIMEOUT_Ball):
+    if(elapsed_time >= TIMEOUT_Ball_POW):
         Ballobj.move(char)
+
+        # to move powerups
+        for i in exp_paddle_obj:
+            if exp_paddle_dict[i] == 1:
+                i.move()
         start_time = time.time()
     #signal.signal(signal.SIGALRM, signal.SIG_IGN)
