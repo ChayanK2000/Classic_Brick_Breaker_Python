@@ -1,6 +1,5 @@
 from outline import gameOutline
 from super_items import *
-#from collision import *
 import colorama
 from colorama import *
 colorama.init(autoreset=True)

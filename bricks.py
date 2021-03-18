@@ -61,6 +61,8 @@ class Brick(Item):
         if (bricktype == "explosive"):
             dfs(visited, adj, Brick_obj)
 
+            # self.arrtoexplode.append(Brick_obj)
+
             for i in arrtoexplode:
                 expl_bricks_coord.remove((i.x, i.y))
                 expl_bricks_obj.remove(i)
@@ -85,6 +87,14 @@ class Brick(Item):
         elif (bricktype == "unbreakable"):
             unbreak_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
             unbreak_bricks_obj.remove(Brick_obj)
+
+            # if ((j_x, i_y) in expl_bricks_coord):
+
+            #     ind = expl_bricks_coord.index((j_x, i_y))
+            #     objjj = expl_bricks_obj[ind]
+            #     self.arrtoexplode.append(objjj)
+            #     # self.clearbrick(objjj, "explosive")
+            #     # Manager.changescore(objjj.worth)
 
     def changebrick(self, Brick_obj, bricktype):
         if (bricktype == "red"):

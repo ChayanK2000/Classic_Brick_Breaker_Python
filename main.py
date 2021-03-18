@@ -64,7 +64,7 @@ while (1):
 
     if char == 'q':
         break
-    elif char == 'j' or char == 'l':
+    elif char == 'a' or char == 'd':
         Paddleobj.move(char)
 
     # if ballobj.move is always executed then say if we keep pressing j to move paddle faster, the ball also travels faster

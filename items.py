@@ -1,5 +1,6 @@
 import getch
 import sys
+# from getch import _getChUnix as getChar
 from super_items import *
 from outline import gameOutline
 from collision import *
@@ -70,7 +71,7 @@ class Paddle(Item):
 
     def move(self, char):
 
-        if char == 'j':
+        if char == 'a':
             for i in range(0, self.height):
                 for j in range(0, len(self.arr[i])):
                     gameOutline.OutlineArray[self.y + i][self.x +
@@ -91,7 +92,7 @@ class Paddle(Item):
                     gameOutline.OutlineArray[self.y + i][self.x +
                                                          j] = Fore.GREEN + Back.BLACK + self.arr[i][j]
             # gameOutline.display()
-        elif char == 'l':
+        elif char == 'd':
             for i in range(0, self.height):
                 for j in range(0, len(self.arr[i])):
                     gameOutline.OutlineArray[self.y + i][self.x +
@@ -128,10 +129,6 @@ class Ball(Item):
             self.vel_y = -1
             self.rest = False
 
-        if self.lifelost == 0:
-            # if (self.history == 0):
-            gameOutline.OutlineArray[self.y][self.x] = Fore.BLACK + \
-                Back.BLACK + " "
         collision_paddle(Ballobj, Paddleobj)
         collision_brick(Ballobj, red_bricks_obj, "red")
         collision_brick(Ballobj, blue_bricks_obj, "blue")
@@ -142,20 +139,20 @@ class Ball(Item):
 
         # this history variable just so that when ball passes a brick at high velocity, the gap is not created
         if self.lifelost == 0:
-            # if (self.history == 0):
-            # gameOutline.OutlineArray[self.y][self.x] = Fore.BLACK + \
-            #     Back.BLACK + " "
+            if (self.history == 0):
+                gameOutline.OutlineArray[self.y][self.x] = Fore.BLACK + \
+                    Back.BLACK + " "
 
-            # self.history = 0
-            # self.x += self.vel_x
+            self.history = 0
+            self.x += self.vel_x
             self.y += self.vel_y
 
-            # if (gameOutline.OutlineArray[self.y][self.x] != Fore.BLACK + Back.BLACK + " "):
-            #     self.history = 1
+            if (gameOutline.OutlineArray[self.y][self.x] != Fore.BLACK + Back.BLACK + " "):
+                self.history = 1
 
-            # else:
-            gameOutline.OutlineArray[self.y][self.x] = Fore.GREEN + \
-                Back.BLACK + "O"
+            else:
+                gameOutline.OutlineArray[self.y][self.x] = Fore.GREEN + \
+                    Back.BLACK + "O"
         else:  # re initializing and generating like at the start
             self.lifelost = 0
             Paddleobj.x = 40
