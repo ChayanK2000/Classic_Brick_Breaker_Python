@@ -18,33 +18,42 @@ class PowerUp(Item):
         self.init_y = y
         self.history = 0
         self.powlost = 0
+        self.rest = True
+        self.time = 0
 
     def move(self, Powerobj, Paddleobj, Ballobj, powertype):
-        self.vel_y = 1
+        if (self.rest == True):
+            self.vel_y = Ballobj.prev_vel_y
+            self.vel_x = Ballobj.prev_vel_x
+            self.rest = False
+            self.time += 1
 
-
+        self.time += 1
+        
         if (self.history == 0):
             for i in range(0, self.height):
                 for j in range(0, len(self.arr[i])):
                     gameOutline.OutlineArray[self.y + i][self.x +
                                                          j] = Fore.BLACK + Back.BLACK + " "
+        if (self.time >= 5):
+            self.vel_y += 1
+            self.time = 0
+        collision_pow(Powerobj, Paddleobj,Ballobj, powertype)
+        collision_pow_wall(Powerobj, powertype)
+        if (Powerobj.powlost == 1):
+            return
 
-            collision_pow(Powerobj, Paddleobj,Ballobj, powertype)
-            collision_pow_wall(Powerobj, powertype)
-            if (Powerobj.powlost == 1):
-                return
+        self.history = 0
+        self.x += self.vel_x
+        self.y += self.vel_y
 
-            self.history = 0
-            self.x += self.vel_x
-            self.y += self.vel_y
-
-            if (gameOutline.OutlineArray[self.y][self.x] != Fore.BLACK + Back.BLACK + " "):
-                self.history = 1
-            else:
-                for i in range(0, self.height):
-                    for j in range(0, len(self.arr[i])):
-                        gameOutline.OutlineArray[self.y + i][self.x +
-                                                             j] = Fore.GREEN + Back.BLACK + self.arr[i][j]
+        if (gameOutline.OutlineArray[self.y][self.x] != Fore.BLACK + Back.BLACK + " "):
+            self.history = 1
+        else:
+            for i in range(0, self.height):
+                for j in range(0, len(self.arr[i])):
+                    gameOutline.OutlineArray[self.y + i][self.x +
+                                                            j] = Fore.GREEN + Back.BLACK + self.arr[i][j]
 
     def clearPower(self, Powerobj, powertype):
         for i in range(Powerobj.height):

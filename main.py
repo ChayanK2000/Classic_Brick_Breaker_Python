@@ -52,6 +52,7 @@ def user_input():
 
 colour_variable = 0
 start_time = time.time()
+
 global_time = start_time
 while (1):
     if time.time() - global_time >= 1:
@@ -83,21 +84,20 @@ while (1):
     elapsed_time = time.time() - start_time
     if(elapsed_time >= TIMEOUT_Ball_POW):
         Ballobj.move(char)
-                
-        
 
         # to move powerups, polymorphism in function of 'move' for ball-paddle and powerups
         for i in exp_paddle_pow_obj:
             # this dict works as the boolean for whether the powerup is detached(the brick containing it is cleared) or not
             if exp_paddle_pow_dict[i] == 1:
-                i.move(i, Paddleobj,Ballobj, "expand")
+                i.move(i, Paddleobj, Ballobj, "expand")
 
         for i in fireball_pow_obj:
             # this dict works as the boolean for whether the powerup is detached(the brick containing it is cleared) or not
             if fireball_pow_dict[i] == 1:
-                i.move(i, Paddleobj,Ballobj, "fireball")
-
+                i.move(i, Paddleobj, Ballobj, "fireball")
 
 
         start_time = time.time()
+        
+
     #signal.signal(signal.SIGALRM, signal.SIG_IGN)

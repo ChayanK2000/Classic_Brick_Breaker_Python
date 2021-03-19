@@ -90,4 +90,8 @@ def collision_pow_wall(Powerobj, powertype):
     if (Powerobj.y + Powerobj.vel_y == 30):
         Powerobj.powlost = 1
         Powerobj.clearPower(Powerobj, powertype)
+    if ((Powerobj.y + Powerobj.vel_y <= -1)):
+        Powerobj.vel_y *= -1
+    if ((Powerobj.x + Powerobj.vel_x <= -1) or (Powerobj.x + Powerobj.vel_x >= 100)):
+        Powerobj.vel_x *= -1
 

@@ -27,6 +27,25 @@ class Brick(Item):
         self.worth = 0
         self.hitbyfireball = 0
 
+
+    def evaluate(self, Brick_obj):
+        Manager.changescore(Brick_obj.worth)
+
+           #following code because the powerups come own only after brick is cleared(i,e, when cyan is hit)
+        if ((Brick_obj.x + 2, Brick_obj.y) in exp_paddle_pow_coord):
+            ind = exp_paddle_pow_coord.index(
+                (Brick_obj.x + 2, Brick_obj.y))
+            exp_paddle_pow_obj[ind].generate(
+                "power_expand.txt", Fore.GREEN, Back.BLACK)
+            exp_paddle_pow_dict[exp_paddle_pow_obj[ind]] = 1
+
+        if ((Brick_obj.x + 2, Brick_obj.y) in fireball_pow_coord):
+            ind = fireball_pow_coord.index(
+                (Brick_obj.x + 2, Brick_obj.y))
+            fireball_pow_obj[ind].generate(
+                "power_fireball.txt", Fore.LIGHTRED_EX, Back.BLACK)
+            fireball_pow_dict[fireball_pow_obj[ind]] = 1
+
     def handleexplosives(self, Brick_obj):  # only to handle explosive cases
         for i in range(Brick_obj.height):
 
@@ -127,6 +146,7 @@ class Brick(Item):
                 red_bricks_obj.append(objjj)
 
         elif (Ballobj.fire == 1):
+            self.evaluate(Brick_obj)
             return
 
         elif (bricktype == "red"):
@@ -145,22 +165,7 @@ class Brick(Item):
             cyan_bricks_obj.append(objjj)
             #objjj.generate("brick.txt", Fore.CYAN, Back.CYAN)
         elif (bricktype == "cyan"):
-            Manager.changescore(Brick_obj.worth)
-
-            #following code because the powerups come own only after brick is cleared(i,e, when cyan is hit)
-            if ((Brick_obj.x + 2, Brick_obj.y) in exp_paddle_pow_coord):
-                ind = exp_paddle_pow_coord.index(
-                    (Brick_obj.x + 2, Brick_obj.y))
-                exp_paddle_pow_obj[ind].generate(
-                    "power_expand.txt", Fore.GREEN, Back.BLACK)
-                exp_paddle_pow_dict[exp_paddle_pow_obj[ind]] = 1
-
-            if ((Brick_obj.x + 2, Brick_obj.y) in fireball_pow_coord):
-                ind = fireball_pow_coord.index(
-                    (Brick_obj.x + 2, Brick_obj.y))
-                fireball_pow_obj[ind].generate(
-                    "power_fireball.txt", Fore.LIGHTRED_EX, Back.BLACK)
-                fireball_pow_dict[fireball_pow_obj[ind]] = 1
+            self.evaluate(Brick_obj)
 
 
 class Brick1_cyan(Brick):

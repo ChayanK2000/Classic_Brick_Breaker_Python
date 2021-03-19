@@ -120,12 +120,16 @@ class Ball(Item):
         super().__init__(x, y, path, forecolour, backcolour)
         self.vel_x = 0
         self.vel_y = 0
+        self.prev_vel_x = 0
+        self.prev_vel_y = 0
         self.fire = 0
         #self.history = 0
         self.lifelost = 0  # dummy variable just to check whether the life is just lost or not
         self.rest = True # variable telling whther ball is at rest(on paddle) or moving
 
     def move(self, char):
+        self.prev_vel_x = self.vel_x
+        self.prev_vel_y = self.vel_y
         if char == ' ' and self.rest == True: #Bug: have to keep pressing space(or any char) to release the ball
             self.vel_y = -1
             self.rest = False
