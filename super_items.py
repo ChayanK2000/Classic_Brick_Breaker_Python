@@ -34,4 +34,4 @@ class Item():
             for j in range(0, len(itemobj.arr[i])):
                 gameOutline.OutlineArray[itemobj.y + i][itemobj.x +
                                                         j] = Fore.BLACK + Back.BLACK + " "
-        self.lifelost = 1
+        #self.lifelost = 1

@@ -59,7 +59,7 @@ while (1):
         Manager.change_time()
     system('tput reset')
     gameOutline.display()
-    Manager.generatefoot()
+    Manager.generatefoot()#to generate this as header, some changes has to be made regarding size of outline etc etc
     char = user_input()
 
     if char == 'q':
@@ -74,9 +74,9 @@ while (1):
     if(elapsed_time >= TIMEOUT_Ball_POW):
         Ballobj.move(char)
 
-        # to move powerups
-        for i in exp_paddle_obj:
-            if exp_paddle_dict[i] == 1:
+        # to move powerups, polymorphism in function of 'move' for ball-paddle and powerups
+        for i in exp_paddle_pow_obj:
+            if exp_paddle_pow_dict[i] == 1:
                 i.move()
         start_time = time.time()
     #signal.signal(signal.SIGALRM, signal.SIG_IGN)

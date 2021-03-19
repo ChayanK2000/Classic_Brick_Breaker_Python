@@ -115,12 +115,12 @@ class Brick(Item):
         elif (bricktype == "cyan"):
             Manager.changescore(Brick_obj.worth)
 
-            if ((Brick_obj.x + 2, Brick_obj.y) in exp_paddle_coord):
-                ind = exp_paddle_coord.index(
+            if ((Brick_obj.x + 2, Brick_obj.y) in exp_paddle_pow_coord):
+                ind = exp_paddle_pow_coord.index(
                     (Brick_obj.x + 2, Brick_obj.y))
-                exp_paddle_obj[ind].generate(
+                exp_paddle_pow_obj[ind].generate(
                     "power_expand.txt", Fore.GREEN, Back.BLACK)
-                exp_paddle_dict[exp_paddle_obj[ind]] = 1
+                exp_paddle_pow_dict[exp_paddle_pow_obj[ind]] = 1
 
 
 class Brick1_cyan(Brick):
@@ -290,8 +290,8 @@ for i in unbreak_bricks_coord:
 # for i in unbreak_bricks_obj:
 #     i.generate("brick.txt")
 
-expl_bricks_coord = [(20, 5), (26, 5), (32, 5), (38, 5),
-                     (44, 5), (50, 5), (56, 5), (62, 5), (68, 5), (74, 5), (80, 5), (80, 6), (86, 5), (86, 6)]
+expl_bricks_coord = [(8, 3), (14, 4), (20, 5), (26, 5), (32, 5), (38, 5),
+                     (44, 5), (50, 5), (56, 5), (62, 5), (68, 5), (74, 5), (80, 5), (86, 6), (92,7)]
 expl_bricks_obj = []
 for i in expl_bricks_coord:
     expl_bricks_obj.append(Brick5_expl(

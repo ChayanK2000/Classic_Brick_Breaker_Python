@@ -10,6 +10,7 @@ def collision_paddle(Ballobj, Paddleobj):
         # print(Paddleobj.right1)
         # print(Paddleobj.right2)
         # exit()
+
         # -1 and +1 at start and end so that ball bounces even at the corners
         if (Ballobj.x in Paddleobj.left2):
             Ballobj.vel_x += -2
@@ -45,6 +46,7 @@ def collision_wall(Ballobj, Paddleobj):
         Ballobj.clearOnLiveLost(Paddleobj)
         # basically any object of item class instead of ballobj
         Ballobj.clearOnLiveLost(Ballobj)
+        Ballobj.lifelost = 1
 
         # on trying to do below code and remove from items.py, strangely on losing a life i cant release the ball, no matter how much time space is pressed.
         # re initializing and generating like at the start
@@ -64,32 +66,37 @@ def collision_wall(Ballobj, Paddleobj):
 
 
 def collision_brick(Ballobj, Bricks_obj, bricktype):
-    # need to do dame fine tuning. like it is almost correct except at very high speeds.
+    #in the fllowing i.height doesnt matter as the height is just 1. written just for generalization
+
     for i in Bricks_obj:
-        if (Ballobj.y + Ballobj.vel_y == i.y):
-            if (Ballobj.x in [j for j in range(i.x, i.x + i.width)]):
+        if ((Ballobj.y + Ballobj.vel_y == i.y + i.height - 1) or (Ballobj.y + Ballobj.vel_y == i.y)):
+            if (Ballobj.x in [j for j in range(i.x - abs(Ballobj.vel_x), i.x + i.width + abs(Ballobj.vel_x))]):
                 Ballobj.vel_y *= -1
+                if (((Ballobj.vel_x > 0) and (Ballobj.x + Ballobj.vel_x == i.x)) or ((Ballobj.vel_x < 0) and (Ballobj.x + Ballobj.vel_x == i.x + i.width - 1))):
+                    Ballobj.vel_x *= -1
                 if(bricktype != "unbreakable"):
                     i.clearbrick(i, bricktype)
                     i.changebrick(i, bricktype)
                     # if (bricktype == 'cyan'):
                     #     # for powerups
-                    #     if ((i.x + 2, i.y) in exp_paddle_coord):
-                    #         ind = exp_paddle_coord.index(
+                    #     if ((i.x + 2, i.y) in exp_paddle_pow_coord):
+                    #         ind = exp_paddle_pow_coord.index(
                     #             (i.x + 2, i.y))
-                    #         exp_paddle_obj[ind].generate("power_expand.txt")
-
-        if (Ballobj.x + Ballobj.vel_x == i.x):
-            if (Ballobj.y in [j for j in range(i.y, i.y + i.height)]):
+                    #         exp_paddle_pow_obj[ind].generate("power_expand.txt")
+        elif (Ballobj.y == i.y):
+            if (((Ballobj.vel_x < 0) and (Ballobj.x == i.x + i.width)) or ((Ballobj.vel_x > 0) and (Ballobj.x == i.x - 1))):
                 Ballobj.vel_x *= -1
-                if(bricktype != "unbreakable"):
-                    i.clearbrick(i, bricktype)
-                    i.changebrick(i, bricktype)
+        # if (Ballobj.x + Ballobj.vel_x == i.x):
+        #     if (Ballobj.y in [j for j in range(i.y, i.y + i.height)]):
+        #         Ballobj.vel_x *= -1
+        #         if(bricktype != "unbreakable"):
+        #             i.clearbrick(i, bricktype)
+        #             i.changebrick(i, bricktype)
 
-        # elif to handle the four corners only if above two dont satisfy
-        if (((Ballobj.y + Ballobj.vel_y == i.y) and (Ballobj.x + Ballobj.vel_x == i.x)) or ((Ballobj.y + Ballobj.vel_y == i.y + i.height - 1) and (Ballobj.x + Ballobj.vel_x == i.x + i.width - 1))):
-            Ballobj.vel_x *= -1
-            Ballobj.vel_y *= -1
-            if(bricktype != "unbreakable"):
-                i.clearbrick(i, bricktype)
-                i.changebrick(i, bricktype)
+        # # elif to handle the four corners only if above two dont satisfy
+        # if (((Ballobj.y + Ballobj.vel_y == i.y) and (Ballobj.x + Ballobj.vel_x == i.x)) or ((Ballobj.y + Ballobj.vel_y == i.y + i.height - 1) and (Ballobj.x + Ballobj.vel_x == i.x + i.width - 1))):
+        #     Ballobj.vel_x *= -1
+        #     Ballobj.vel_y *= -1
+        #     if(bricktype != "unbreakable"):
+        #         i.clearbrick(i, bricktype)
+        #         i.changebrick(i, bricktype)

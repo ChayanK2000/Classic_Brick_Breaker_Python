@@ -41,12 +41,12 @@ class Expand_Paddle(PowerUp):
         super().__init__(x, y, path, forecolour, backcolour)
 
 
-exp_paddle_coord = [(24, 14), (21, 10)]
-exp_paddle_obj = []
-exp_paddle_dict = {}
-for i in exp_paddle_coord:
-    exp_paddle_obj.append(Expand_Paddle(
+exp_paddle_pow_coord = [(24, 14), (21, 10)]
+exp_paddle_pow_obj = []
+exp_paddle_pow_dict = {}
+for i in exp_paddle_pow_coord:
+    exp_paddle_pow_obj.append(Expand_Paddle(
         i[0], i[1], "power_expand.txt", Fore.GREEN, Back.BLACK))
-for i in exp_paddle_obj:
-    exp_paddle_dict[i] = 0
+for i in exp_paddle_pow_obj:
+    exp_paddle_pow_dict[i] = 0
     # i.generate("power_expand.txt")

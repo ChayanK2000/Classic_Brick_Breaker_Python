@@ -1,5 +1,6 @@
 1. say vel_x increases to 6 units, and i am at 97th coord(99 is the end). so it shud then show up at 91 or 95? though this is not much detectable but these cases entangle more and are important ig when say wall/brick or brick/brick are very near to each other and collision is happening.
 Update: Still left
+Update: Resolved by far. no need of 'history' variable now.
 
 2. thus just as we had extra (+1, -1) while collision with pad(but still i did not take into account vel here which i should. Thus now even if ball already goes on right comes to just right of paddle, it bounces(not expected), but a ball already going left comes just right of paddle it bounces(expected)), similar technique to apply in bricks. Need to consider the extreme + 1 points
 Update: Paddle collision extreme handle succesfullly using separate if loops.

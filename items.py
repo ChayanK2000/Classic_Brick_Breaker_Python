@@ -32,7 +32,7 @@ class Paddle(Item):
         self.right1 = []
         self.right2 = []
         self.pos = self.x
-        for i in range(0, 5):
+        for i in range(0, 5): # as total five partitions
             if i == 2:
                 max = self.centrewidth
             else:
@@ -79,7 +79,7 @@ class Paddle(Item):
 
             if(self.x >= 1):
                 self.x = self.x - 1
-                self.changePartCoord(-1)
+                self.changePartCoord(-1) # to move 1 unit left
                 if (Ballobj.rest == True):
                     gameOutline.OutlineArray[Ballobj.y][Ballobj.x] = Fore.BLACK + \
                         Back.BLACK + " "
@@ -100,7 +100,7 @@ class Paddle(Item):
 
             if(self.x + self.width <= 99):
                 self.x = self.x + 1
-                self.changePartCoord(1)
+                self.changePartCoord(1)  # to move 1 unit right
                 if (Ballobj.rest == True):
                     gameOutline.OutlineArray[Ballobj.y][Ballobj.x] = Fore.BLACK + \
                         Back.BLACK + " "
@@ -120,12 +120,12 @@ class Ball(Item):
         super().__init__(x, y, path, forecolour, backcolour)
         self.vel_x = 0
         self.vel_y = 0
-        self.history = 0
+        #self.history = 0
         self.lifelost = 0  # dummy variable just to check whether the life is just lost or not
-        self.rest = True
+        self.rest = True # variable telling whther ball is at rest(on paddle) or moving
 
     def move(self, char):
-        if char == ' ' and self.rest == True:
+        if char == ' ' and self.rest == True: #Bug: have to keep pressing space(or any char) to release the ball
             self.vel_y = -1
             self.rest = False
 
@@ -139,20 +139,20 @@ class Ball(Item):
 
         # this history variable just so that when ball passes a brick at high velocity, the gap is not created
         if self.lifelost == 0:
-            if (self.history == 0):
-                gameOutline.OutlineArray[self.y][self.x] = Fore.BLACK + \
-                    Back.BLACK + " "
+            #if (self.history == 0):
+            gameOutline.OutlineArray[self.y][self.x] = Fore.BLACK + \
+                Back.BLACK + " "
 
-            self.history = 0
+            #self.history = 0
             self.x += self.vel_x
             self.y += self.vel_y
 
-            if (gameOutline.OutlineArray[self.y][self.x] != Fore.BLACK + Back.BLACK + " "):
-                self.history = 1
+            # if (gameOutline.OutlineArray[self.y][self.x] != Fore.BLACK + Back.BLACK + " "):
+            #     self.history = 1
 
-            else:
-                gameOutline.OutlineArray[self.y][self.x] = Fore.GREEN + \
-                    Back.BLACK + "O"
+            #else:
+            gameOutline.OutlineArray[self.y][self.x] = Fore.GREEN + \
+                Back.BLACK + "O"
         else:  # re initializing and generating like at the start
             self.lifelost = 0
             Paddleobj.x = 40
