@@ -10,7 +10,8 @@ from collections import defaultdict
 colorama.init(autoreset=True)
 
 # using dfs to first store all explosive brick in contact with another explosive brick
-
+# using python dictionary to act as adjacency list
+global arrtoexplode
 adj = defaultdict(list)
 visited = set()
 arrtoexplode = []
@@ -36,7 +37,7 @@ class Brick(Item):
         ref_y = Brick_obj.y
         for i_y in range(ref_y - 1, ref_y + 2):
             for j_x in range(ref_x - 6, ref_x + 7):
-                if((i_y in range(0, 30)) and (j_x in range(0, 99))):
+                if((i_y in range(0, 30)) and (j_x in range(0, 99))): #these conditions so that due to range of outer loops, we dont get out of the scene of game
                     if ((j_x, i_y) in red_bricks_coord):
                         ind = red_bricks_coord.index((j_x, i_y))
                         objjj = red_bricks_obj[ind]
@@ -59,14 +60,18 @@ class Brick(Item):
 
     def clearbrick(self, Brick_obj, bricktype):
         if (bricktype == "explosive"):
+            global arrtoexplode
+            
             dfs(visited, adj, Brick_obj)
-
-            # self.arrtoexplode.append(Brick_obj)
+            
 
             for i in arrtoexplode:
                 expl_bricks_coord.remove((i.x, i.y))
                 expl_bricks_obj.remove(i)
                 self.handleexplosives(i)
+            arrtoexplode = []
+                
+            
 
         for i in range(Brick_obj.height):
 
@@ -291,7 +296,7 @@ for i in unbreak_bricks_coord:
 #     i.generate("brick.txt")
 
 expl_bricks_coord = [(8, 3), (14, 4), (20, 5), (26, 5), (32, 5), (38, 5),
-                     (44, 5), (50, 5), (56, 5), (62, 5), (68, 5), (74, 5), (80, 5), (86, 6), (92,7)]
+                     (44, 5), (50, 5), (56, 5), (62, 5), (68, 5), (74, 5), (80, 5), (86, 6), (92,7), (50,20), (56,20)]
 expl_bricks_obj = []
 for i in expl_bricks_coord:
     expl_bricks_obj.append(Brick5_expl(

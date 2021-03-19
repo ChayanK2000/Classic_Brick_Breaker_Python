@@ -48,17 +48,6 @@ def collision_wall(Ballobj, Paddleobj):
         Ballobj.clearOnLiveLost(Ballobj)
         Ballobj.lifelost = 1
 
-        # on trying to do below code and remove from items.py, strangely on losing a life i cant release the ball, no matter how much time space is pressed.
-        # re initializing and generating like at the start
-        # Ballobj.lifelost = True
-        # Paddleobj.x = 40
-        # Paddleobj.y = 29
-        # Ballobj.x = 49
-        # Ballobj.y = 28
-        # Ballobj.vel_x, Ballobj.vel_y = 0, 0
-        # Ballobj.rest = True
-        # Paddleobj.generate('paddle.txt')
-        # Ballobj.generate('ball1.txt')
 
     # need some fine tuning for X direction/vel etc. not proper.
     if ((Ballobj.x + Ballobj.vel_x <= -1) or (Ballobj.x + Ballobj.vel_x >= 100)):
@@ -86,6 +75,7 @@ def collision_brick(Ballobj, Bricks_obj, bricktype):
         elif (Ballobj.y == i.y):
             if (((Ballobj.vel_x < 0) and (Ballobj.x == i.x + i.width)) or ((Ballobj.vel_x > 0) and (Ballobj.x == i.x - 1))):
                 Ballobj.vel_x *= -1
+                
         # if (Ballobj.x + Ballobj.vel_x == i.x):
         #     if (Ballobj.y in [j for j in range(i.y, i.y + i.height)]):
         #         Ballobj.vel_x *= -1
