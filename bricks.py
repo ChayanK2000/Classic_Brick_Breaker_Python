@@ -5,6 +5,7 @@ from super_items import *
 import colorama
 from colorama import *
 from collections import defaultdict
+from random import randint
 
 # from colorama import init, Fore, Back, Style
 colorama.init(autoreset=True)
@@ -22,8 +23,6 @@ arrtoexplode = []
 class Brick(Item):
     def __init__(self, x, y, path, forecolour, backcolour):
         super().__init__(x, y, path, forecolour, backcolour)
-        # self.x = x
-        # self.y = y
         self.strength = 1
         self.worth = 0
 
@@ -60,11 +59,9 @@ class Brick(Item):
 
     def clearbrick(self, Brick_obj, bricktype):
         if (bricktype == "explosive"):
-            global arrtoexplode
+            global arrtoexplode # to accomodate for the fact when multiple clusters/bricks(explosives) are not joined together
             
             dfs(visited, adj, Brick_obj)
-            
-
             for i in arrtoexplode:
                 expl_bricks_coord.remove((i.x, i.y))
                 expl_bricks_obj.remove(i)
@@ -92,17 +89,31 @@ class Brick(Item):
         elif (bricktype == "unbreakable"):
             unbreak_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
             unbreak_bricks_obj.remove(Brick_obj)
+        elif (bricktype == "rainbow"):
+            rainbow_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
+            rainbow_bricks_obj.pop((Brick_obj.x, Brick_obj.y))
 
-            # if ((j_x, i_y) in expl_bricks_coord):
-
-            #     ind = expl_bricks_coord.index((j_x, i_y))
-            #     objjj = expl_bricks_obj[ind]
-            #     self.arrtoexplode.append(objjj)
-            #     # self.clearbrick(objjj, "explosive")
-            #     # Manager.changescore(objjj.worth)
 
     def changebrick(self, Brick_obj, bricktype):
-        if (bricktype == "red"):
+        if (bricktype == "rainbow"):
+            color = randint(0, 2)
+            if color == 0:
+                objjj = Brick1_cyan(Brick_obj.x, Brick_obj.y,
+                                    "brick.txt", Fore.CYAN, Back.CYAN)
+                cyan_bricks_coord.append((Brick_obj.x, Brick_obj.y))
+                cyan_bricks_obj.append(objjj)
+            elif color == 1:
+                objjj = Brick2_blue(Brick_obj.x, Brick_obj.y,
+                                    "brick.txt", Fore.BLUE, Back.BLUE)
+                blue_bricks_coord.append((Brick_obj.x, Brick_obj.y))
+                blue_bricks_obj.append(objjj)
+            elif color == 2:
+                objjj = Brick3_red(Brick_obj.x, Brick_obj.y,
+                                    "brick.txt", Fore.RED, Back.RED)
+                red_bricks_coord.append((Brick_obj.x, Brick_obj.y))
+                red_bricks_obj.append(objjj)
+
+        elif (bricktype == "red"):
 
             objjj = Brick2_blue(Brick_obj.x, Brick_obj.y,
                                 "brick.txt", Fore.BLUE, Back.BLUE)
@@ -120,6 +131,7 @@ class Brick(Item):
         elif (bricktype == "cyan"):
             Manager.changescore(Brick_obj.worth)
 
+            #following code because the powerups come own only after brick is cleared(i,e, when cyan is hit)
             if ((Brick_obj.x + 2, Brick_obj.y) in exp_paddle_pow_coord):
                 ind = exp_paddle_pow_coord.index(
                     (Brick_obj.x + 2, Brick_obj.y))
@@ -133,77 +145,16 @@ class Brick1_cyan(Brick):
         super().__init__(x, y, path, forecolour, backcolour)
         self.worth = 10
 
-    # def generate(self, path):
-    #     f = open(path, 'r')
-    #     raw = f.read()
-    #     raw = raw.rstrip("\n")
-    #     self.arr = raw.splitlines()
-    #     mx = -1
-    #     for i in self.arr:
-    #         mx = max(mx, len(i))
-
-    #     self.height = len(self.arr)
-    #     self.width = mx
-
-    #     # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
-    #     #                   for row in range(height)]))
-    #     for i in range(self.height):
-
-    #         for j in range(len(self.arr[i])):
-    #             gameOutline.OutlineArray[self.y+i][self.x +
-    #                                                j] = Fore.CYAN + Back.CYAN + self.arr[i][j]
-
 
 class Brick2_blue(Brick):
     def __init__(self, x, y, path, forecolour, backcolour):
         super().__init__(x, y, path, forecolour, backcolour)
         self.worth = 20
 
-    # def generate(self, path):
-    #     f = open(path, 'r')
-    #     raw = f.read()
-    #     raw = raw.rstrip("\n")
-    #     self.arr = raw.splitlines()
-    #     mx = -1
-    #     for i in self.arr:
-    #         mx = max(mx, len(i))
-
-    #     self.height = len(self.arr)
-    #     self.width = mx
-
-    #     # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
-    #     #                   for row in range(height)]))
-    #     for i in range(self.height):
-
-    #         for j in range(len(self.arr[i])):
-    #             gameOutline.OutlineArray[self.y+i][self.x +
-    #                                                j] = Fore.BLUE + Back.BLUE + self.arr[i][j]
-
-
 class Brick3_red(Brick):
     def __init__(self, x, y, path, forecolour, backcolour):
         super().__init__(x, y, path, forecolour, backcolour)
         self.worth = 30
-
-    # def generate(self, path):
-    #     f = open(path, 'r')
-    #     raw = f.read()
-    #     raw = raw.rstrip("\n")
-    #     self.arr = raw.splitlines()
-    #     mx = -1
-    #     for i in self.arr:
-    #         mx = max(mx, len(i))
-
-    #     self.height = len(self.arr)
-    #     self.width = mx
-
-    #     # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
-    #     #                   for row in range(height)]))
-    #     for i in range(self.height):
-
-    #         for j in range(len(self.arr[i])):
-    #             gameOutline.OutlineArray[self.y+i][self.x +
-    #                                                j] = Fore.RED + Back.RED + self.arr[i][j]
 
 
 class Brick4_unbreak(Brick):
@@ -211,51 +162,16 @@ class Brick4_unbreak(Brick):
         super().__init__(x, y, path, forecolour, backcolour)
         self.unbreak = 1
 
-    # def generate(self, path):
-    #     f = open(path, 'r')
-    #     raw = f.read()
-    #     raw = raw.rstrip("\n")
-    #     self.arr = raw.splitlines()
-    #     mx = -1
-    #     for i in self.arr:
-    #         mx = max(mx, len(i))
-
-    #     self.height = len(self.arr)
-    #     self.width = mx
-
-    #     # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
-    #     #                   for row in range(height)]))
-    #     for i in range(self.height):
-
-    #         for j in range(len(self.arr[i])):
-    #             gameOutline.OutlineArray[self.y+i][self.x +
-    #                                                j] = Fore.WHITE + Back.WHITE + self.arr[i][j]
-
 
 class Brick5_expl(Brick):
     def __init__(self, x, y, path, forecolour, backcolour):
         super().__init__(x, y, path, forecolour, backcolour)
         # self.worth = 5
 
-    # def generate(self, path):
-    #     f = open(path, 'r')
-    #     raw = f.read()
-    #     raw = raw.rstrip("\n")
-    #     self.arr = raw.splitlines()
-    #     mx = -1
-    #     for i in self.arr:
-    #         mx = max(mx, len(i))
 
-    #     self.height = len(self.arr)
-    #     self.width = mx
-
-    #     # char = np.array(([[Back.BLACK + Fore.BLACK + ' ' for col in range(width)]
-    #     #                   for row in range(height)]))
-    #     for i in range(self.height):
-
-    #         for j in range(len(self.arr[i])):
-    #             gameOutline.OutlineArray[self.y+i][self.x +
-    #                                                j] = Fore.BLACK + Back.YELLOW + self.arr[i][j]
+class Brick6_rainbow(Brick):
+    def __init__(self, x, y, path, forecolour, backcolour):
+        super().__init__(x, y, path, forecolour, backcolour)
 
 
 # initializing all bricks with cordinates and their objects. Each brick has an object.
@@ -311,11 +227,16 @@ for i in expl_bricks_obj:
             adj[i].append(j)
 
 # dfs only for exploding bricks handling
-
-
 def dfs(visited, adj, node):
     if node not in visited:
         arrtoexplode.append(node)
         visited.add(node)
         for neighbour in adj[node]:
             dfs(visited, adj, neighbour)
+
+
+rainbow_bricks_coord = [(35,20)]
+rainbow_bricks_obj = {}
+rainbow_colours = [(Fore.CYAN, Back.CYAN), (Fore.BLUE,
+                                            Back.BLUE), (Fore.RED, Back.RED)]
+

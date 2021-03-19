@@ -1,6 +1,6 @@
 from bricks import *
 from manage import *
-
+#from playsound import playsound
 
 def collision_paddle(Ballobj, Paddleobj):
     if (Ballobj.y + Ballobj.vel_y == 29):
@@ -66,16 +66,13 @@ def collision_brick(Ballobj, Bricks_obj, bricktype):
                 if(bricktype != "unbreakable"):
                     i.clearbrick(i, bricktype)
                     i.changebrick(i, bricktype)
-                    # if (bricktype == 'cyan'):
-                    #     # for powerups
-                    #     if ((i.x + 2, i.y) in exp_paddle_pow_coord):
-                    #         ind = exp_paddle_pow_coord.index(
-                    #             (i.x + 2, i.y))
-                    #         exp_paddle_pow_obj[ind].generate("power_expand.txt")
         elif (Ballobj.y == i.y):
             if (((Ballobj.vel_x < 0) and (Ballobj.x == i.x + i.width)) or ((Ballobj.vel_x > 0) and (Ballobj.x == i.x - 1))):
                 Ballobj.vel_x *= -1
-                
+                if(bricktype != "unbreakable"):
+                    i.clearbrick(i, bricktype)
+                    i.changebrick(i, bricktype)
+
         # if (Ballobj.x + Ballobj.vel_x == i.x):
         #     if (Ballobj.y in [j for j in range(i.y, i.y + i.height)]):
         #         Ballobj.vel_x *= -1

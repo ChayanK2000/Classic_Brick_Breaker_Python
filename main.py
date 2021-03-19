@@ -50,7 +50,7 @@ def user_input():
         # timeout
         return ''  # ' ' will return space - verified by printing ord(char)
 
-
+colour_variable = 0
 start_time = time.time()
 global_time = start_time
 while (1):
@@ -58,13 +58,20 @@ while (1):
         global_time += 1
         Manager.change_time()
     system('tput reset')
+    # any diff if we put this rainbow code along in the Ballobj.move scope?
+    for i in rainbow_bricks_coord:
+        rainbow_bricks_obj[i] = Brick6_rainbow(
+            i[0], i[1], "brick.txt", rainbow_colours[colour_variable][0], rainbow_colours[colour_variable][1])
+
+    colour_variable = (colour_variable + 1) % 3
+    
     gameOutline.display()
     Manager.generatefoot()#to generate this as header, some changes has to be made regarding size of outline etc etc
     char = user_input()
 
     if char == 'q':
         break
-    elif char == 'a' or char == 'd':
+    elif char == 'j' or char == 'l':
         Paddleobj.move(char)
 
     # if ballobj.move is always executed then say if we keep pressing j to move paddle faster, the ball also travels faster
@@ -74,8 +81,12 @@ while (1):
     if(elapsed_time >= TIMEOUT_Ball_POW):
         Ballobj.move(char)
 
+        #for rainbow bricks
+        
+
         # to move powerups, polymorphism in function of 'move' for ball-paddle and powerups
         for i in exp_paddle_pow_obj:
+            # this dict works as the boolean for whether the powerup is detached(the brick containing it is cleared) or not
             if exp_paddle_pow_dict[i] == 1:
                 i.move()
         start_time = time.time()

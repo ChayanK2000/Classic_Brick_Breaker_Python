@@ -21,4 +21,8 @@ but doing that has a problem that on the new life the ball never gets released. 
 
 6. All have different generate function even though i can have one only in item is because everything has different colour. so anyways if i did thta i had to write lots of if else in it depending on which file is being read.
 
-7. to see the hypo case where say first there is cyan then on same place i have unreak, then beacuse of order, unbreak is show, BUT on hitting it it gives 10 points(as it was also cyan), but the area became completely blank, though property of unbreak was stull reflected(the ball reflects from the blank area, as unbreak coord are still there) Writing this because this coincides with the concept of powerups inside bricks
+7. to see the hypo case where say first there is cyan then on same place i have unreak, then beacuse of order, unbreak is show, BUT on hitting it it gives 10 points(as it was also cyan), but the area became completely blank, though property of unbreak was stull reflected(the ball reflects from the blank area, as unbreak coord are still there) Writing this because this coincides with the concept of powerups inside bricks.
+
+8. Issue of circular importing, and unwanted importing. like if i want to acces a variable of main.oy in other py files(which is already imported in main.py). Local importing/storing the value in c=vraible of thatt= very file where needed...?? or totally change technique...
+
+9. For now rainbow done using random...idt it is wrong.

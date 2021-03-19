@@ -43,6 +43,7 @@ class Expand_Paddle(PowerUp):
 
 exp_paddle_pow_coord = [(24, 14), (21, 10)]
 exp_paddle_pow_obj = []
+# this dict works as the boolean for whether the powerup is detached(the brick containing it is cleared) or not
 exp_paddle_pow_dict = {}
 for i in exp_paddle_pow_coord:
     exp_paddle_pow_obj.append(Expand_Paddle(

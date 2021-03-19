@@ -71,7 +71,7 @@ class Paddle(Item):
 
     def move(self, char):
 
-        if char == 'a':
+        if char == 'j':
             for i in range(0, self.height):
                 for j in range(0, len(self.arr[i])):
                     gameOutline.OutlineArray[self.y + i][self.x +
@@ -92,7 +92,7 @@ class Paddle(Item):
                     gameOutline.OutlineArray[self.y + i][self.x +
                                                          j] = Fore.GREEN + Back.BLACK + self.arr[i][j]
             # gameOutline.display()
-        elif char == 'd':
+        elif char == 'l':
             for i in range(0, self.height):
                 for j in range(0, len(self.arr[i])):
                     gameOutline.OutlineArray[self.y + i][self.x +
@@ -135,6 +135,7 @@ class Ball(Item):
         collision_brick(Ballobj, cyan_bricks_obj, "cyan")
         collision_brick(Ballobj, unbreak_bricks_obj, "unbreakable")
         collision_brick(Ballobj, expl_bricks_obj, "explosive")
+        collision_brick(Ballobj, list(rainbow_bricks_obj.values()), "rainbow")
         collision_wall(Ballobj, Paddleobj)
 
         # this history variable just so that when ball passes a brick at high velocity, the gap is not created
