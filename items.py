@@ -129,6 +129,8 @@ class Ball(Item):
             self.vel_y = -1
             self.rest = False
 
+        #writing this collision para here as the values of x, y are changing andprinted here
+
         collision_paddle(Ballobj, Paddleobj)
         collision_brick(Ballobj, red_bricks_obj, "red")
         collision_brick(Ballobj, blue_bricks_obj, "blue")

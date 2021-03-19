@@ -1,6 +1,7 @@
-from bricks import *
+#from bricks import *
 from manage import *
 #from playsound import playsound
+#from powerups import *
 
 def collision_paddle(Ballobj, Paddleobj):
     if (Ballobj.y + Ballobj.vel_y == 29):
@@ -73,17 +74,9 @@ def collision_brick(Ballobj, Bricks_obj, bricktype):
                     i.clearbrick(i, bricktype)
                     i.changebrick(i, bricktype)
 
-        # if (Ballobj.x + Ballobj.vel_x == i.x):
-        #     if (Ballobj.y in [j for j in range(i.y, i.y + i.height)]):
-        #         Ballobj.vel_x *= -1
-        #         if(bricktype != "unbreakable"):
-        #             i.clearbrick(i, bricktype)
-        #             i.changebrick(i, bricktype)
 
-        # # elif to handle the four corners only if above two dont satisfy
-        # if (((Ballobj.y + Ballobj.vel_y == i.y) and (Ballobj.x + Ballobj.vel_x == i.x)) or ((Ballobj.y + Ballobj.vel_y == i.y + i.height - 1) and (Ballobj.x + Ballobj.vel_x == i.x + i.width - 1))):
-        #     Ballobj.vel_x *= -1
-        #     Ballobj.vel_y *= -1
-        #     if(bricktype != "unbreakable"):
-        #         i.clearbrick(i, bricktype)
-        #         i.changebrick(i, bricktype)
+def collision_pow(Powerobj, Paddleobj, powertype):
+    if (Powerobj.y + Powerobj.vel_y == 29):
+        if (Powerobj.x in range(Paddleobj.x + Paddleobj.width)):
+            Powerobj.clearPower(Powerobj, powertype)
+            Powerobj.activate(Powerobj, Paddleobj, powertype)

@@ -1,7 +1,9 @@
 from outline import gameOutline
 from super_items import *
+#from items import Paddleobj
 import colorama
 from colorama import *
+from collision import *
 colorama.init(autoreset=True)
 
 
@@ -12,16 +14,21 @@ class PowerUp(Item):
         # self.y = y
         self.vel_x = 0
         self.vel_y = 0
+        self.init_x = x
+        self.init_y = y
         self.history = 0
 
-    def move(self):
+    def move(self, Powerobj, Paddleobj, powertype):
         self.vel_y = 1
+
 
         if (self.history == 0):
             for i in range(0, self.height):
                 for j in range(0, len(self.arr[i])):
                     gameOutline.OutlineArray[self.y + i][self.x +
                                                          j] = Fore.BLACK + Back.BLACK + " "
+
+            collision_pow(Powerobj, Paddleobj, powertype)
 
             self.history = 0
             self.x += self.vel_x
@@ -34,6 +41,23 @@ class PowerUp(Item):
                     for j in range(0, len(self.arr[i])):
                         gameOutline.OutlineArray[self.y + i][self.x +
                                                              j] = Fore.GREEN + Back.BLACK + self.arr[i][j]
+
+    def clearPower(self, Powerobj, powertype):
+        for i in range(Powerobj.height):
+
+            for j in range(len(Powerobj.arr[i])):
+                gameOutline.OutlineArray[Powerobj.y+i][Powerobj.x +
+                                                        j] = Fore.BLACK + Back.BLACK + " "
+        
+        if (powertype == "expand"):
+            exp_paddle_pow_coord.remove((Powerobj.init_x, Powerobj.init_y))
+            exp_paddle_pow_obj.remove(Powerobj)
+
+    def activate(self, Powerobj, Paddleobj, powertype):
+        if (powertype == "expand"):
+            Paddleobj.x -= 2 
+            Paddleobj.generate('expanded_paddle.txt', Fore.GREEN, Back.BLACK)
+            Paddleobj.partitions()
 
 
 class Expand_Paddle(PowerUp):
@@ -51,3 +75,5 @@ for i in exp_paddle_pow_coord:
 for i in exp_paddle_pow_obj:
     exp_paddle_pow_dict[i] = 0
     # i.generate("power_expand.txt")
+
+

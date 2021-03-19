@@ -26,3 +26,5 @@ but doing that has a problem that on the new life the ball never gets released. 
 8. Issue of circular importing, and unwanted importing. like if i want to acces a variable of main.oy in other py files(which is already imported in main.py). Local importing/storing the value in c=vraible of thatt= very file where needed...?? or totally change technique...
 
 9. For now rainbow done using random...idt it is wrong.
+
+10. one thing to ponder: is sending brickobj to a fucntion inside brik class necessary? like clearbriks/clearpower etc etc.

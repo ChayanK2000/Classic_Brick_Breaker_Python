@@ -58,12 +58,15 @@ while (1):
         global_time += 1
         Manager.change_time()
     system('tput reset')
+    #for rainbow bricks
     # any diff if we put this rainbow code along in the Ballobj.move scope?
     for i in rainbow_bricks_coord:
         rainbow_bricks_obj[i] = Brick6_rainbow(
             i[0], i[1], "brick.txt", rainbow_colours[colour_variable][0], rainbow_colours[colour_variable][1])
 
     colour_variable = (colour_variable + 1) % 3
+
+    
     
     gameOutline.display()
     Manager.generatefoot()#to generate this as header, some changes has to be made regarding size of outline etc etc
@@ -80,14 +83,16 @@ while (1):
     elapsed_time = time.time() - start_time
     if(elapsed_time >= TIMEOUT_Ball_POW):
         Ballobj.move(char)
-
-        #for rainbow bricks
+                
         
 
         # to move powerups, polymorphism in function of 'move' for ball-paddle and powerups
         for i in exp_paddle_pow_obj:
             # this dict works as the boolean for whether the powerup is detached(the brick containing it is cleared) or not
             if exp_paddle_pow_dict[i] == 1:
-                i.move()
+                i.move(i, Paddleobj, "expand")
+
+
+
         start_time = time.time()
     #signal.signal(signal.SIGALRM, signal.SIG_IGN)
