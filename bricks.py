@@ -25,6 +25,7 @@ class Brick(Item):
         super().__init__(x, y, path, forecolour, backcolour)
         self.strength = 1
         self.worth = 0
+        self.hitbyfireball = 0
 
     def handleexplosives(self, Brick_obj):  # only to handle explosive cases
         for i in range(Brick_obj.height):
@@ -58,25 +59,37 @@ class Brick(Item):
                         self.clearbrick(objjj, "unbreakable")
 
     def clearbrick(self, Brick_obj, bricktype):
-        if (bricktype == "explosive"):
-            global arrtoexplode # to accomodate for the fact when multiple clusters/bricks(explosives) are not joined together
-            
-            dfs(visited, adj, Brick_obj)
-            for i in arrtoexplode:
-                expl_bricks_coord.remove((i.x, i.y))
-                expl_bricks_obj.remove(i)
-                self.handleexplosives(i)
-            arrtoexplode = []
-                
-            
+        
 
         for i in range(Brick_obj.height):
 
             for j in range(len(Brick_obj.arr[i])):
                 gameOutline.OutlineArray[Brick_obj.y+i][Brick_obj.x +
                                                         j] = Fore.BLACK + Back.BLACK + " "
+        
+        if (bricktype == "explosive"):
+            # to accomodate for the fact when multiple clusters/bricks(explosives) are not joined together
+            global arrtoexplode
 
-        if (bricktype == "red"):
+            dfs(visited, adj, Brick_obj)
+            for i in arrtoexplode:
+                expl_bricks_coord.remove((i.x, i.y))
+                expl_bricks_obj.remove(i)
+                self.handleexplosives(i)
+            arrtoexplode = []
+
+        elif (bricktype == "rainbow"):
+            rainbow_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
+            rainbow_bricks_obj.pop((Brick_obj.x, Brick_obj.y))
+
+        elif (Brick_obj.hitbyfireball == 1):
+            Brick_obj.hitbyfireball = 0
+            self.handleexplosives(Brick_obj)        
+            
+
+        
+
+        elif (bricktype == "red"):
             red_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
             red_bricks_obj.remove(Brick_obj)
         elif (bricktype == "blue"):
@@ -89,12 +102,12 @@ class Brick(Item):
         elif (bricktype == "unbreakable"):
             unbreak_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
             unbreak_bricks_obj.remove(Brick_obj)
-        elif (bricktype == "rainbow"):
-            rainbow_bricks_coord.remove((Brick_obj.x, Brick_obj.y))
-            rainbow_bricks_obj.pop((Brick_obj.x, Brick_obj.y))
+        
 
 
-    def changebrick(self, Brick_obj, bricktype):
+    def changebrick(self, Brick_obj, bricktype, Ballobj):
+        
+        
         if (bricktype == "rainbow"):
             color = randint(0, 2)
             if color == 0:
@@ -112,6 +125,9 @@ class Brick(Item):
                                     "brick.txt", Fore.RED, Back.RED)
                 red_bricks_coord.append((Brick_obj.x, Brick_obj.y))
                 red_bricks_obj.append(objjj)
+
+        elif (Ballobj.fire == 1):
+            return
 
         elif (bricktype == "red"):
 
@@ -138,6 +154,13 @@ class Brick(Item):
                 exp_paddle_pow_obj[ind].generate(
                     "power_expand.txt", Fore.GREEN, Back.BLACK)
                 exp_paddle_pow_dict[exp_paddle_pow_obj[ind]] = 1
+
+            if ((Brick_obj.x + 2, Brick_obj.y) in fireball_pow_coord):
+                ind = fireball_pow_coord.index(
+                    (Brick_obj.x + 2, Brick_obj.y))
+                fireball_pow_obj[ind].generate(
+                    "power_fireball.txt", Fore.LIGHTRED_EX, Back.BLACK)
+                fireball_pow_dict[fireball_pow_obj[ind]] = 1
 
 
 class Brick1_cyan(Brick):
@@ -176,7 +199,7 @@ class Brick6_rainbow(Brick):
 
 # initializing all bricks with cordinates and their objects. Each brick has an object.
 red_bricks_coord = [(23, 4), (61, 10), (37, 4), (44, 4),
-                    (36, 14), (58, 4), (65, 4), (71, 14)]
+                    (36, 14), (58, 4), (65, 4), (71, 14), (71,11)]
 red_bricks_obj = []
 for i in red_bricks_coord:
     red_bricks_obj.append(Brick3_red(
@@ -185,7 +208,7 @@ for i in red_bricks_coord:
 #     i.generate("brick.txt")
 
 blue_bricks_coord = [(30, 4), (12, 10), (19, 10), (26, 10), (33, 10),
-                     (40, 10), (47, 10), (54, 10), (68, 10), (75, 10)]
+                     (40, 10), (47, 10), (54, 10), (68, 10), (75, 10), (77,11)]
 blue_bricks_obj = []
 for i in blue_bricks_coord:
     blue_bricks_obj.append(Brick2_blue(
@@ -235,7 +258,7 @@ def dfs(visited, adj, node):
             dfs(visited, adj, neighbour)
 
 
-rainbow_bricks_coord = [(35,20)]
+rainbow_bricks_coord = [(35,20),(72,7)]
 rainbow_bricks_obj = {}
 rainbow_colours = [(Fore.CYAN, Back.CYAN), (Fore.BLUE,
                                             Back.BLUE), (Fore.RED, Back.RED)]

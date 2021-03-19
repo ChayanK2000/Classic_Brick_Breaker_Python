@@ -90,7 +90,12 @@ while (1):
         for i in exp_paddle_pow_obj:
             # this dict works as the boolean for whether the powerup is detached(the brick containing it is cleared) or not
             if exp_paddle_pow_dict[i] == 1:
-                i.move(i, Paddleobj, "expand")
+                i.move(i, Paddleobj,Ballobj, "expand")
+
+        for i in fireball_pow_obj:
+            # this dict works as the boolean for whether the powerup is detached(the brick containing it is cleared) or not
+            if fireball_pow_dict[i] == 1:
+                i.move(i, Paddleobj,Ballobj, "fireball")
 
 
 

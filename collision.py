@@ -64,19 +64,30 @@ def collision_brick(Ballobj, Bricks_obj, bricktype):
                 Ballobj.vel_y *= -1
                 if (((Ballobj.vel_x > 0) and (Ballobj.x + Ballobj.vel_x == i.x)) or ((Ballobj.vel_x < 0) and (Ballobj.x + Ballobj.vel_x == i.x + i.width - 1))):
                     Ballobj.vel_x *= -1
-                if(bricktype != "unbreakable"):
+                if (bricktype != "unbreakable"):
+                    if (Ballobj.fire == 1):
+                        i.hitbyfireball = 1
+                        
                     i.clearbrick(i, bricktype)
-                    i.changebrick(i, bricktype)
+                    i.changebrick(i, bricktype, Ballobj)
         elif (Ballobj.y == i.y):
             if (((Ballobj.vel_x < 0) and (Ballobj.x == i.x + i.width)) or ((Ballobj.vel_x > 0) and (Ballobj.x == i.x - 1))):
                 Ballobj.vel_x *= -1
-                if(bricktype != "unbreakable"):
+                if (bricktype != "unbreakable"):
+                    if (Ballobj.fire == 1):
+                        i.hitbyfireball = 1
                     i.clearbrick(i, bricktype)
-                    i.changebrick(i, bricktype)
+                    i.changebrick(i, bricktype, Ballobj)
 
 
-def collision_pow(Powerobj, Paddleobj, powertype):
+def collision_pow(Powerobj, Paddleobj,Ballobj, powertype):
     if (Powerobj.y + Powerobj.vel_y == 29):
         if (Powerobj.x in range(Paddleobj.x + Paddleobj.width)):
             Powerobj.clearPower(Powerobj, powertype)
-            Powerobj.activate(Powerobj, Paddleobj, powertype)
+            Powerobj.activate(Powerobj, Paddleobj,Ballobj, powertype)
+
+def collision_pow_wall(Powerobj, powertype):
+    if (Powerobj.y + Powerobj.vel_y == 30):
+        Powerobj.powlost = 1
+        Powerobj.clearPower(Powerobj, powertype)
+

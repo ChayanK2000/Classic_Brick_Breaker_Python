@@ -120,6 +120,7 @@ class Ball(Item):
         super().__init__(x, y, path, forecolour, backcolour)
         self.vel_x = 0
         self.vel_y = 0
+        self.fire = 0
         #self.history = 0
         self.lifelost = 0  # dummy variable just to check whether the life is just lost or not
         self.rest = True # variable telling whther ball is at rest(on paddle) or moving
@@ -154,8 +155,11 @@ class Ball(Item):
             #     self.history = 1
 
             #else:
-            gameOutline.OutlineArray[self.y][self.x] = Fore.GREEN + \
-                Back.BLACK + "O"
+            if self.fire == 1:
+                gameOutline.OutlineArray[self.y][self.x] = Fore.RED + \
+                    Back.BLACK + "O"
+            else:
+                gameOutline.OutlineArray[self.y][self.x] = Fore.GREEN + Back.BLACK + "O"
         else:  # re initializing and generating like at the start
             self.lifelost = 0
             Paddleobj.x = 40
@@ -163,6 +167,7 @@ class Ball(Item):
             self.x = 49
             self.y = 28
             self.vel_x, self.vel_y = 0, 0
+            self.fire = 0
             self.rest = True
             Paddleobj.generate('paddle.txt', Fore.GREEN, Back.BLACK)
             self.generate('ball1.txt', Fore.GREEN, Back.BLACK)

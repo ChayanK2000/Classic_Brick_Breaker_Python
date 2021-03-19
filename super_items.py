@@ -9,8 +9,8 @@ class Item():
     def __init__(self, x, y, path, forecolour, backcolour):
         self.x = x
         self.y = y
-        if (path != "power_expand.txt"):
-            self.generate(path, forecolour, backcolour)
+        #if (path != "power_expand.txt"):
+        self.generate(path, forecolour, backcolour)
 
     def generate(self, path, forecolour, backcolour):
         f = open(path, 'r')

@@ -17,8 +17,9 @@ class PowerUp(Item):
         self.init_x = x
         self.init_y = y
         self.history = 0
+        self.powlost = 0
 
-    def move(self, Powerobj, Paddleobj, powertype):
+    def move(self, Powerobj, Paddleobj, Ballobj, powertype):
         self.vel_y = 1
 
 
@@ -28,7 +29,10 @@ class PowerUp(Item):
                     gameOutline.OutlineArray[self.y + i][self.x +
                                                          j] = Fore.BLACK + Back.BLACK + " "
 
-            collision_pow(Powerobj, Paddleobj, powertype)
+            collision_pow(Powerobj, Paddleobj,Ballobj, powertype)
+            collision_pow_wall(Powerobj, powertype)
+            if (Powerobj.powlost == 1):
+                return
 
             self.history = 0
             self.x += self.vel_x
@@ -53,14 +57,28 @@ class PowerUp(Item):
             exp_paddle_pow_coord.remove((Powerobj.init_x, Powerobj.init_y))
             exp_paddle_pow_obj.remove(Powerobj)
 
-    def activate(self, Powerobj, Paddleobj, powertype):
+        if (powertype == "fireball"):
+            fireball_pow_coord.remove((Powerobj.init_x, Powerobj.init_y))
+            fireball_pow_obj.remove(Powerobj)
+
+    def activate(self, Powerobj, Paddleobj,Ballobj, powertype):
         if (powertype == "expand"):
             Paddleobj.x -= 2 
             Paddleobj.generate('expanded_paddle.txt', Fore.GREEN, Back.BLACK)
             Paddleobj.partitions()
 
+        if (powertype == "fireball"):
+            Ballobj.fire = 1
+            Ballobj.generate('ball1.txt', Fore.RED, Back.BLACK)
+
+
 
 class Expand_Paddle(PowerUp):
+    def __init__(self, x, y, path, forecolour, backcolour):
+        super().__init__(x, y, path, forecolour, backcolour)
+
+
+class Fireball(PowerUp):
     def __init__(self, x, y, path, forecolour, backcolour):
         super().__init__(x, y, path, forecolour, backcolour)
 
@@ -74,6 +92,16 @@ for i in exp_paddle_pow_coord:
         i[0], i[1], "power_expand.txt", Fore.GREEN, Back.BLACK))
 for i in exp_paddle_pow_obj:
     exp_paddle_pow_dict[i] = 0
-    # i.generate("power_expand.txt")
+
+fireball_pow_coord = [(73,14)]
+fireball_pow_obj = []
+# this dict works as the boolean for whether the powerup is detached(the brick containing it is cleared) or not
+fireball_pow_dict = {}
+for i in fireball_pow_coord:
+    fireball_pow_obj.append(Fireball(
+        i[0], i[1], "power_fireball.txt", Fore.GREEN, Back.BLACK))
+for i in fireball_pow_obj:
+    fireball_pow_dict[i] = 0
+
 
 
